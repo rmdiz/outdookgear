@@ -18,5 +18,6 @@ class Products{
         // RETURN RESULTS
         return $stmt;
 	}
+
 }
 ?>

@@ -13,4 +13,5 @@
 
 	// CORE CLASSES
 	require_once(CORE_PATH.'Products.php');
+	require_once(CORE_PATH.'Model.php');
 ?>
