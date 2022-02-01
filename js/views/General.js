@@ -22,6 +22,7 @@ export default class{
 	storeSession(ajaxRequest){
 		if(!localStorage.getItem('outdoorgear')){
 	        this.site.sessions = {};
+		    this.site.cart = {};
             localStorage.setItem('outdoorgear', JSON.stringify(this.site));
         }
 		ajaxRequest.always(function(result){ 
@@ -39,7 +40,11 @@ export default class{
 		ajaxRequest.always(function(result){ 
 			if(result.response == "success"){
 		        this.site = JSON.parse(localStorage.getItem('outdoorgear'));
-		        this.site[storageKey] = result.message;
+		        let obj = {};
+		        result.message.forEach((line) => {
+		        	obj[line.id] = line;
+		        })
+		        this.site[storageKey] = obj;
 		        localStorage.setItem('outdoorgear', JSON.stringify(this.site));
 			}
 		});

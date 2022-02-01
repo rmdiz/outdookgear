@@ -140,9 +140,9 @@ class Product{
 				extract($row);
 
 				$product_item = array(
-					'id' => $inventory_id,
+					'id' => $product_id,
 					'quantity' => $quantity,
-					'product_id' => $product_id,
+					'inventory_id' => $inventory_id,
 					'name' => $product_name,
 					'desc' => $description,
 					'category_id' => $category_id, 
@@ -158,7 +158,7 @@ class Product{
 					'size_label' => $size_label, 
 					'supplier' => $supplier, 
 					'product_code' => $product_code, 
-					'product_image' => $product_image, 
+					'product_image' => ($product_image == null) ? "default.png": $product_image, 
 					'supplier_id' => $supplier_id, 
 					'created_at' => $created_at, 
 					'modified_at' => $modified_at, 

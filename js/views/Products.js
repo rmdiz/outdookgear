@@ -9,71 +9,74 @@ export default class extends General{
 	}
 
 	async addInventory(inventory_list, inventoryTableBody){
+		console.log(inventory_list);
 		let inventory = ``;
 		let count = 1;
-		inventory_list.forEach((inventory_item) => {
-			let background = ((count % 2) == 0) ? "white" : 'ghostwhite';
-			count ++;
+		if(inventory_list != "Nothing found"){
+			inventory_list.forEach((inventory_item) => {
+				let background = ((count % 2) == 0) ? "white" : 'ghostwhite';
+				count ++;
 
-			inventory += `
-						<tr class = "${background}">
-							<td><label>${inventory_item.product_code}</label></td>
-							<td><label>${inventory_item.name}</label></td>
-							<td><label>${inventory_item.category}</label></td>
-							<td><label>${inventory_item.buy_price}</label></td>
-							<td><label>${inventory_item.sale_price}</label></td>
-							<td><label>${inventory_item.brand}</label></td>
-							<td><label>${inventory_item.quantity}</label></td>
-							<td>
-								<label>
-									<span class="status s_active">${inventory_item.status_name}</span>
-								</label>
-							</td>
-							<td><label>${inventory_item.branch}</label></td>
-							<td>
-								<label>
-									<a href="#">
-										<i class="las la-braille"></i>
-									</a>
-									<a href="#">
-										<i class="las la-edit"></i>
-									</a>
-									<a href="#">
-										<i class="las la-trash-alt"></i>
-									</a>
-								</label>
-							</td>
-						</tr>
-				`;
-		});
+				inventory += `
+							<tr class = "${background}">
+								<td><label>${inventory_item.product_code}</label></td>
+								<td><label>${inventory_item.name}</label></td>
+								<td><label>${inventory_item.category}</label></td>
+								<td><label>${inventory_item.buy_price}</label></td>
+								<td><label>${inventory_item.sale_price}</label></td>
+								<td><label>${inventory_item.brand}</label></td>
+								<td><label>${inventory_item.quantity}</label></td>
+								<td>
+									<label>
+										<span class="status s_active">${inventory_item.status_name}</span>
+									</label>
+								</td>
+								<td><label>${inventory_item.branch}</label></td>
+								<td>
+									<label>
+										<a href="#">
+											<i class="las la-braille"></i>
+										</a>
+										<a href="#">
+											<i class="las la-edit"></i>
+										</a>
+										<a href="#">
+											<i class="las la-trash-alt"></i>
+										</a>
+									</label>
+								</td>
+							</tr>
+					`;
+			});
 
-		inventoryTableBody.innerHTML = inventory;
+			inventoryTableBody.innerHTML = inventory;
+		}
 	}
 
 
 	async addProduct(product_list, productTableBody){
 		let product = ``;
 		let count = 1;
-		product_list.forEach((product_item) => {
+		Object.keys(product_list).forEach((product_item) => {
 			let background = ((count % 2) == 0) ? "white" : 'ghostwhite';
 			count ++;
 			product += `
 						<tr class = "${background}">
-							<td><label>${product_item.product_code}</label></td>
-							<td><label>${product_item.name}</label></td>
-							<td><label>${product_item.category_name}</label></td>
-							<td><label>${product_item.buy_price}</label></td>
-							<td><label>${product_item.sale_price}</label></td>
-							<td><label>${product_item.brand_name}</label></td>
+							<td><label>${product_list[product_item].product_code}</label></td>
+							<td><label>${product_list[product_item].name}</label></td>
+							<td><label>${product_list[product_item].category_name}</label></td>
+							<td><label>${product_list[product_item].buy_price}</label></td>
+							<td><label>${product_list[product_item].sale_price}</label></td>
+							<td><label>${product_list[product_item].brand_name}</label></td>
 							<td>
 								<label>
-									<a href="#" data-productid="${product_item.id}">
+									<a href="#" data-productid="${product_list[product_item].id}">
 										<i class="las la-braille"></i>
 									</a>
-									<a href="#" data-productid="${product_item.id}" class="edit_product">
+									<a href="#" data-productid="${product_list[product_item].id}" class="edit_product">
 										<i class="las la-edit"></i>
 									</a>
-									<a href="#" data-productid="${product_item.id}">
+									<a href="#" data-productid="${product_list[product_item].id}">
 										<i class="las la-trash-alt"></i>
 									</a>
 								</label>

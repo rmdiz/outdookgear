@@ -1,7 +1,7 @@
-/** GOOGLE FONTS inventory_in **/
+/** GOOGLE FONTS p_info **/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;600&display=swap');
 
-/*** VARIABLES page ***/
+/*** VARIABLES page billing ***/
 :root{
 	/*COLORS*/
 	--blue :#3d5aff;
@@ -1719,6 +1719,10 @@ span.status{
 	grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
 	grid-gap: 1rem;
 	background: ghostwhite;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: start;
 }
 .product_display .product_bunner{
 	grid-column: 1/-1;
@@ -1944,6 +1948,7 @@ span.status{
 }
 .cart_section .cart_list .cart_items .cart_item .p_info span{
 	display: flex;
+	align-items: center;
 	width: 6rem;
 	height: 6rem;
 	overflow: hidden;
@@ -1963,13 +1968,16 @@ span.status{
 }
 .cart_section .cart_list .cart_items .cart_item .p_info :nth-child(2) small{
 	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 	flex-direction: row;
 	width: inherit;
 	padding-left: .3rem;
+	height: 1.5rem;
 }
 .cart_section .cart_list .cart_items .cart_item .p_info :nth-child(2) small b{
 	display: flex;
-	width: 3rem;
+	width: 3.5rem;
 	color: gray;
 }
 .cart_section .cart_list .cart_items .cart_item  :nth-child(3) label{
@@ -2119,16 +2127,25 @@ span.status{
 .cart_section .cart_info .sale_details .sale_billing span b{
 	padding: 0 .5rem;
 }
-.cart_section .cart_info .sale_details .billing_info span button{
+.cart_section .cart_info .sale_details .billing_info .cart_btn{
+	display: flex;
+	justify-content: space-between;
+}
+
+.cart_section .cart_info .sale_details .billing_info .cart_btn button{
 	border: none;
-	background: forestgreen;
 	color: var(--white);
 	padding: .5rem 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	text-transform: uppercase;
-	width: 8rem;
+	min-width: 8rem;
+	background: orange;
+	cursor: pointer;
+}
+.cart_section .cart_info .sale_details .billing_info .cart_btn button:last-child{
+	background: forestgreen;
 }
 .product_full_details{
 	display: grid;
@@ -2414,8 +2431,146 @@ span.status{
 .invoice_items .item_more_info span{
 	padding: .2rem 1rem;
 }
+.receipt_overlay{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: -100%;
+	right: 100%;
+	background: rgba(0,0,0,.5);
+	z-index: 1000;
+	transition: all .5s ease-in-out;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.receipt{
+	position: relative;
+	background: var(--white);
+	border: 1px solid dodgerblue;
+	display: flex;
+	flex-direction: column;
+	width: 350px;
 
-/** *************** RESPONSIVE ********************* **/
+}
+.receipt_overlay.active{
+	left: 0;
+	right: 0;
+}
+.receipt_header{
+	display: flex;
+	flex-direction: column;
+	font-size: .65rem;
+	margin-bottom: 1rem;
+}
+.receipt_header .logo{
+	display: flex;
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+}
+.receipt_header .contact{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	width: 100%;
+	padding: 1rem;
+}
+.receipt_header .contact span{
+	display: flex;
+	width: 12.5rem;
+	padding: .2rem 0;
+}
+.receipt_header .contact span b{
+	padding-right: .5rem;
+}
+.receipt_header .contact span.full_width{
+	grid-column: 1/-1;
+	display: flex;
+	width: 87%;
+	justify-content: center;
+	font-weight: 600;
+	font-weight: 300;
+
+}
+.receipt_header .contact span:last-child{
+	text-transform: uppercase;
+}
+.receipt_number{
+	padding: .5rem;
+	display: flex;
+	justify-content: space-between;
+	font-size: inherit;
+}
+.receipt_body{
+	display: flex;
+	flex-direction: column;
+	font-size: .65rem;
+}
+.receipt_table{
+	border-collapse: collapse;
+	margin: 0 .2rem;
+	font-size: .65rem;
+}
+.receipt_table thead tr th{
+	text-align: left;
+	border: 1px solid;
+	border-color: #ccc transparent #ccc transparent;
+	padding: .3rem;
+}
+.receipt_table tbody tr td{
+	text-align: left;
+	padding-left: .2rem;
+}
+.receipt_table thead tr th .item_quantity,
+.receipt_table tbody tr td .item_quantity{
+	display: flex;
+	width: 1.5rem;
+	overflow: hidden;
+	background: ghostwhite;
+}
+.receipt_footer{
+	display: grid;
+	align-self: flex-start;
+	font-size: .65rem;
+	padding: 0 1rem;
+	grid-template-columns: repeat(2, 1fr);
+}
+.receipt_footer span{
+	padding: .3rem;
+
+}
+.rTotal{
+	border: 2px solid;
+	border-color: #ccc transparent #ccc transparent;
+	text-transform: uppercase;
+	display: flex;
+	display: flex;
+	align-items: center;
+}
+.rTotal b{
+	padding-right: .2rem;
+}
+.receipt_footer .attendant{
+	padding-top: 1rem;
+	grid-column: 1/-1;
+	text-align: center;
+	width: 100%;
+
+}
+.receipt_footer .remarks{
+	border-bottom: 1px solid #ccc;
+	grid-column: 1/-1;
+	text-align: center;
+	width: 100%;
+}
+.receipt_footer .close{
+	font-style: italic;
+	font-size: .65rem;
+	grid-column: 1/-1;
+	text-align: center;
+	width: 100%;
+	text-transform: uppercase;
+}
+/** *************** RESPONSIVE ********************* p_info **/
 @media screen and  (max-width:  1800px){
 
 	.sign-in-container form h2{
