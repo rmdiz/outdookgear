@@ -24,6 +24,8 @@
 	$sizeController = new Size($Model);
 	require_once('../api/Supplier.php');
 	$supplierController = new Supplier($Model);
+	require_once('../api/PaymentTypes.php');
+	$paymentTypesController = new PaymentTypes($Model);
 
 	$request = $_POST['action'];
 
@@ -46,6 +48,9 @@
 			break;
 		case 'fetch_all_brands':
 			$brandController->getBrands();
+			break;
+		case 'fetch_all_payment_types':
+			$paymentTypesController->getPaymentTypes();
 			break;
 		case 'fetch_all_colors':
 			$colorController->getColors();

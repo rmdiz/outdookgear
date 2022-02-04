@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Outdoor Gear</title>
+
+	<!-- ICONS -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="./css/layout.css">
+</head>
+<body>
+	<i class="las la-bars" id="toggle"></i>
+	<div id="attendant_logo">
+		<img src="./images/lifeStyle.png">
+	</div>
+	<header>
+		<form class="search">
+			<input type="search" name="search_field" placeholder="Search...">
+			<i class="las la-search"></i>
+		</form>
+		<div class="top_nav">
+			<div class="vBox">
+				<a href="home.html?pg=home" class="nav__link"  data-pg>
+					<span class="icon"><i class="las la-home"></i></span>
+					<span class="title">Home</span>
+				</a>
+				<a href="home.html?pg=orders" class="nav__link"  data-pg>
+					<span class="icon"><i class="las la-dolly-flatbed"></i></span>
+					<span class="title">Orders</span>
+				</a>
+				<a href="home.html?pg=sales" class="nav__link"  data-pg>
+					<span class="icon"><i class="las la-file-invoice-dollar"></i></span>
+					<span class="title">Sales</span>
+				</a>
+				<a href="home.html?pg=return" class="nav__link"  data-pg>
+					<span class="icon"><i class="las la-exchange-alt"></i></span>
+					<span class="title">Return</span>
+				</a>
+			</div>
+			<div class="user">
+				<span class="date">4:31:34 <b>PM</b></span>
+				<a href="#" class="user_nav_link" id="showCart">
+					<span class="icon"><i class="las la-shopping-bag"></i></span>
+					<sup>0</sup>
+				</a>
+				<a href="#" class="user_nav_link">
+					<span class="icon"><i class="las la-bell"></i></span>
+					<sup>10</sup>
+				</a>
+				<div class="user_info" title="Click to logout">
+					<span class="username" id="logedin_user">rogers</span>
+					<span class="user_image"><img src="./images/user.jpg" id="logged_in_img"></span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="profile_signout">
+		<span><i class="las la-sign-out-alt"></i>Signout</b></span>
+	</div>
+	
+	<div class="cart_section">
+	</div>
+	<div class="receipt_overlay">
+		<div class="receipt" id="receipt">
+			<div class="receipt_header">
+				<div class="logo">
+					<img src="./images/lifeStyle.png">
+				</div>
+				<div class="contact">
+					<span class="full_width"><b>Website:</b> www.lifestyleoutdoorgear.com</span>
+					<span  class="full_width"><b>Email:</b>tactical.ug@gmail.com</span>
+					<span  class="full_width"><b>Phone:</b>+256754244838</span>
+					<span class="full_width"><b id="outlet">Outlet: Arena Mall</b></span>
+				</div>
+				<div class="receipt_number">
+					<span id="invoice_no"><b>No.</b>: #8226</span>
+					<span id="invoice_date"><b>Date</b>: 29/01/2022 3:45:23 PM</span>
+				</div>
+			</div>
+			<div class="receipt_body">
+				<table class="receipt_table">
+					<thead>
+						<tr>
+							<th>PCode</th>
+							<th>Name</th>
+							<th><span  class="item_quantity">Qty</span></th>
+							<th>Price</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody id="receipt_items">
+					</tbody>
+				</table>
+			</div>
+			<div class="receipt_footer">
+				<span id="payType"><b>Payment:</b> Cash</span>
+				<span class="rTotal"><b>Total:</b> <b id="totalPrice">2,000,000</b><small>/=</small></span>
+				<span class="attendant">You have been served by <b id="receipt_attendant">AGABA</b></span>
+				<span class="remarks">Thank you for shopping with us.</span>
+				<span class="close">POS SYSTEM DESIGNED BY RMDiz. <br>QUICK CONTACT NUMBER +256705314188 @ MWAMBALA ROGERS</span>
+			</div>
+		</div>
+	</div>
+	<div class="notification">
+		<span>Welcome rogers</span>
+		<i class="las la-times"></i>
+	</div>
+	<!-- SIGN IN SECTION -->
+	
+	<!-- <main> -->
+		
+		
+	<!-- </main> -->
+	<!-- <section class="p_full_details " id="product_full_details">
+		<div class="product_full_details">
+			<div class="header">
+				<span>Product Information</span>
+				<i class="las la-times" id="closeP_details"></i>
+			</div>
+			<div class="product_full_img">
+
+				<div class="p_infor">
+					<h2>Tactical Stryke Pant</h2>
+					<label><b>Category: </b>Pants</label>
+					<label><b>Product Code: </b>PTST28BL</label>
+					<label><b>Brand: </b> 511</label>
+				</div>
+
+				<img src="./images/shirt.jpg">
+			</div>
+			<div class="product_full_info">
+				<div class="available_colors">
+					<b>Select Color</b>
+					<span class="selected">Black</span>
+					<span>Brown</span>
+					<span>Green</span>
+					<span>Navy</span>
+					<span>Maroon</span>
+					<span>Gray</span>
+					<span>Blue</span>
+				</div>
+				<div class="available_size">
+					<b>Select color to get available sizes</b>
+					<span>45.5</span>
+					<span class="selected">41.5</span>
+					<span>45</span>
+					<span>41</span>
+					<span>32</span>
+					<b>Enter Quantity</b>
+					<label class="quantity_adjuster">
+						<a href="#" class="remove_quantity">
+							<i class="las la-minus"></i>
+						</a>
+						<input type="text" name="" id="item_d_quantity" value="1">
+						<a href="#" class="add_quantity">
+							<i class="las la-plus"></i>
+						</a>
+					</label>
+				</div>
+				<div class="desc">
+					<b>Description</b>
+					<p>Stryke pant, 5.11 Tactical stryke pant Black 28</p>
+				</div>
+				<div class="conc">
+					<span><b>@</b>594,900/=</span>
+					<button>Add to Cart <i class="las la-shopping-bag"></i></button>
+				</div>
+			</div>
+		</div>
+	</section> -->
+	<!-- <section class="page" id="invoice_details" style="display: none;">
+		<div class="header">
+			<span><b>Invoice No. </b>#345</span>
+			<i class="las la-chevron-down"></i>
+		</div>
+		<div class="invoice_items">
+			<div class="item_image">
+				<img src="./images/shirt.jpg">
+			</div>
+			<div class="item_primary_info">
+				<h2>Tactical Stryke Pant</h2>
+				<label>Category: Pants</label>
+				<label>Product Code: PTST28BL</label>
+				<label>Brand:  511</label>
+				<label>Color:  Black</label>
+				<label>Size:  45.5</label>
+				<label>Quantity: 5</label>
+				<label>Status: Sold</label>
+				<b>Description</b>
+				<p>Stryke pant, 5.11 Tactical stryke pant Black 28</p>
+			</div>
+			<div class="item_more_info">
+				<b>Transaction information</b>
+				<span>Attendant: attendant name</span>
+				<span>Branch: Branch name</span>
+				<span>Time: 19/01/2022 03:18:34 <small>PM</small></span>
+
+				<b>Invoice billing</b>
+				<span>Customer: customer name</span>
+				<span>Email: customer@yahoo.com</span>
+				<span>Telephone: +256704535628</span>
+				<span>Payment type: Cash</span>
+				<span>Discount: Nil</span>
+				<span>Price: <label>@</label>594,900/=</span>
+			</div>
+		</div>
+	</section> -->
+	<!-- POPUPS -->
+	<!-- <div class="popups">
+		<form class="entry inventory_in">
+			<div class="entry_header">
+				<span>Add New Inventory</span>
+				<i class="las la-times"></i>
+			</div>
+			<div class="entry_body">
+				<div class="field">
+					<label>Code</label>
+					<select>
+						<option selected="true">Choose product code</option>
+						<option>PTST28BL</option>
+						<option>PTST30BL</option>
+					</select>
+					<i class="las la-chevron-down"></i>
+				</div>
+				<div class="field">
+					<label>Product</label>
+					<input type="text" name="product_name" placeholder="Enter product name">
+				</div>
+				<div class="field">
+					<label>Category</label>
+					<input type="text" name="product_name" placeholder="Enter product category">
+				</div>
+				<div class="field">
+					<label>Buy Price</label>
+					<input type="text" name="product_name" placeholder="Enter product buy price">
+				</div>
+				<div class="field">
+					<label>Sale Price</label>
+					<input type="text" name="product_name" placeholder="Enter product sale price">
+				</div>
+				<div class="field">
+					<label>Brand</label>
+					<input type="text" name="product_name" placeholder="Enter product brand">
+				</div>
+				<div class="field">
+					<label>Quantity</label>
+					<input type="text" name="product_name" placeholder="Enter inventory quantity">
+				</div>
+				<div class="field">
+					<label>Branch</label>
+					<input type="text" name="product_name" placeholder="Enter  branch">
+				</div>
+				<div class="field">
+					<label>Status</label>
+					<input type="text" name="product_name" placeholder="Enter inventory status">
+				</div>
+				<div class="field">
+					<label>Discount</label>
+					<select>
+						<option selected="true">Choose discount</option>
+						<option>Bulk</option>
+						<option>Nil</option>
+					</select>
+					<i class="las la-chevron-down"></i>
+
+				</div>
+			</div>
+			<div class="entry_footer">
+				<input type="submit" name="saveInventory" value="Save">
+				<input type="reset" name="clearFields" value="Clear">
+			</div>
+		</form>
+
+		<form class="entry product_in">
+			<div class="entry_header">
+				<span>Add New Product</span>
+				<i class="las la-times"></i>
+			</div>
+			<div class="entry_body">
+				<div class="field">
+					<label>Code</label>
+					<input type="text" name="product_code" placeholder="Enter product code">
+				</div>
+				<div class="field">
+					<label>Product</label>
+					<input type="text" name="product_name" placeholder="Enter product name">
+				</div>
+				<div class="field">
+					<label>Category</label>
+					<select>
+						<option selected="true">Choose category</option>
+						<option>Pants</option>
+						<option>Short</option>
+					</select>
+					<i class="las la-chevron-down"></i>
+				</div>
+				<div class="field">
+					<label>Sapplier</label>
+					<select>
+						<option selected="true">Choose brand</option>
+						<option>511</option>
+						<option>Under Armour</option>
+					</select>
+					<i class="las la-chevron-down"></i>	
+				</div>
+				<div class="field">
+					<label>Buy Price</label>
+					<input type="text" name="product_name" placeholder="Enter product buy price">
+				</div>
+				<div class="field">
+					<label>Sale Price</label>
+					<input type="text" name="product_name" placeholder="Enter product sale price">
+				</div>
+				<div class="field">
+					<label>Brand</label>
+					<select>
+						<option selected="true">Choose brand</option>
+						<option>511</option>
+						<option>Under Armour</option>
+					</select>
+					<i class="las la-chevron-down"></i>
+				</div>
+				<div class="field">
+					<label>Color</label>
+					<select>
+						<option selected="true">Choose brand</option>
+						<option>511</option>
+						<option>Under Armour</option>
+					</select>
+					<i class="las la-chevron-down"></i>
+				</div>
+				<div class="field">
+					<label>Size</label>
+					<select>
+						<option selected="true">Choose brand</option>
+						<option>511</option>
+						<option>Under Armour</option>
+					</select>
+					<i class="las la-chevron-down"></i>
+				</div>
+
+				<div class="field">
+					<label>Remark</label>
+					<input type="text" name="product_name" placeholder="Enter product remark">
+				</div>
+				<div class="field dc">
+					<label>Discription</label>
+					<input type="text" name="product_discription" placeholder="Enter product discription">
+				</div>
+			</div>
+			<div class="entry_footer">
+				<input type="submit" name="saveInventory" value="Save">
+				<input type="reset" name="clearFields" value="Clear">
+			</div>
+		</form>
+	</div> -->
+<!-- product_id`, `product_name`, `description`, `category_id`, `remarks`, `sale_price`, `buy_price`, `brand_id`, `colour_id`, `size_id`, `product_code`, `supplier_id`, `created_at`, `modified_at`, `deleted_at` -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

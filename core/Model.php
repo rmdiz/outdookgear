@@ -21,10 +21,15 @@ class Model{
 
 
 	public function signIn($username, $password){
-		$query = "SELECT *
-            FROM user_tb WHERE username = '" . $username . "' and password = '". $password . "'";
+		$query = "SELECT ut.*, utt.permissions, utt.user_type 
+            FROM user_tb ut 
+            JOIN user_type_tb utt 
+            ON ut.user_type_id = utt.user_type_id  
+            WHERE ut.username = '" . $username . "' and ut.password = '". $password . "'";
+
+        // $sql= "SELECT * FROM `user_profile_image_tb` WHERE status_id = 3 AND user_id = "
  
-        // PREPARE QUERY STATEMENT
+        // PREPARE QUERY STATEMENTauthenticate
         $stmt = $this->conn->prepare( $query );
           
         // RUN/EXECUTE QUERY
