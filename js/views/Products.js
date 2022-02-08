@@ -37,7 +37,7 @@ export default class extends General{
 										<a href="#">
 											<i class="las la-braille"></i>
 										</a>
-										<a href="#">
+										<a href="#" data-inventoryid="${inventory_item.id}" class="edit_inventory">
 											<i class="las la-edit"></i>
 										</a>
 										<a href="#">
@@ -305,7 +305,7 @@ export default class extends General{
 					</div>
 				</div>
 				<div class="entry_footer">
-					<input type="submit" name="saveInventory" value="Save">
+					<input type="submit" name="saveInventory" id="saveInventory" value="Save">
 					<input type="reset" name="clearFields" value="Clear">
 				</div>
 			</form>
@@ -420,6 +420,18 @@ export default class extends General{
     	const data = {
 		    'action':'get_product_details', 
 		    'product_id': productID
+		}
+
+        this.ajaxRequest = super.run(data);
+        // console.log(this.ajaxRequest);
+        // console.log(data)
+        return this.ajaxRequest;
+    }
+    specificityOperation(inventoryID, action, info={}){
+    	const data = {
+		    'action': action, 
+		    'id': inventoryID,
+		    'data': info
 		}
 
         this.ajaxRequest = super.run(data);

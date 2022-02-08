@@ -5,64 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outdoorgear</title>
     <link rel="stylesheet" href="css/style.css">
-
+    <link rel="icon" href="./images/favicon/favicon.ico">
+   
     <!-- --------------------FONT AWESOM CDN LINK------------------ -->
 	<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 
 </head>
 <body>
 
-<!-- <div class="slideshow-container">
-
-    <div class="mySlides fade">
-      <div class="numbertext">1 / 3</div>
-      <img src="./images/arival.jpg">
-      <div class="text">Caption Text</div>
-    </div>
-
-    <div class="mySlides fade">
-      <div class="numbertext">2 / 3</div>
-      <img src="./images/arival2.jpg">
-      <div class="text">Caption Two</div>
-    </div>
-
-    <div class="mySlides fade">
-      <div class="numbertext">3 / 3</div>
-      <img src="./images/arival1.jpg">
-      <div class="text">Caption Three</div>
-    </div>
-
-</div>
-<br>
-
-<div style="text-align:center">
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-</div> -->
-    <!-- <header>
-        <div class="top_header">
-            <div class="logo"><img src="./images/lifeStyle.png"></div>
-            <form action="#" method="post" class="header_search">
-                <input type="search" id="header_search_field" placeholder="Search..">
-                <i class="las la-search"></i>
-            </form>
-            <div class="quick_contact">
-                <small>Quick contacts:</small>
-                <i class="lab la-facebook"></i>
-                <i class="lab la-twitter"></i>
-                <i class="lab la-instagram"></i>
-            </div>
-        </div>
-        <div class="bottom_header">
-            <a href="#home" class="nav_link">Home</a>
-            <a href="#categories" class="nav_link">Categories</a>
-            <a href="#products" class="nav_link">Products</a>
-            <a href="#contacts" class="nav_link">Contact</a>
-        </div>
-    </header> -->
     <div id="attendant_logo">
-        <img src="./images/lifeStyle.png">
+        <img class="primary" src="./images/lifeStyle.png">
+        <img class="secondry" src="./images/square_lifestyle.png">
+
     </div>
     <header>
         <form class="search">
@@ -89,15 +43,16 @@
                 </a>
             </div>
             <div class="user">
-                <span class="date">4:31:34 <b>PM</b></span>
+                <span class="date" id="currentTime"></span>
                 <a href="#" class="user_nav_link" id="showCart">
                     <span class="icon"><i class="las la-shopping-bag"></i></span>
                     <sup>0</sup>
                 </a>
                 <a href="#" class="user_nav_link">
-                    <span class="icon"><i class="las la-bell"></i></span>
-                    <sup>10</sup>
+                    <span class="icon" style="opacity: 0;"><i class="las la-bell"></i></span>
+                    <sup style="display: none;">0</sup>
                 </a>
+                <i id="toggle" class="las la-bars"></i>
             </div>
         </div>
     </header>
@@ -108,8 +63,8 @@
                 <div class="slideItem">
                     <div class="slide_infor">
                         <h1 class="slideTitle">Authentic Field Gear</h1>
-                        <p>
-                            Search Faster, Better & Smarter at outdoorgear Now! Explore the Best Info Now. Powerful and Easy to Use. 100+ Qualitative Results. Discover Quality Results. Tactical and hiking jackets, available in different sizes and colours as listed below
+                        <p style="display:flex;width: 100%;text-align: center;">
+                            The leading suppliers of Tactical, Hiking, Camping and Sporting Gear in the East and Central African region.
 
                         </p>
                     </div>
@@ -119,21 +74,21 @@
                 </div>
                 <div class="slideItem">
                     <div class="slide_infor">
-                        <h1 class="slideTitle">Outdoorgear</h1>
-                        <p>Authentic Field Gear</p>
+                        <h1 class="slideTitle">Outdoor Gear</h1>
+                        <span class="subTitle">Authentic Hiking, Camping, </span>
+                        <span>Tactical and Sporting Clothing, </span>
+                        <span> Footwear and Accessories</span>
                         <button class="more"><i class="las la-chevron-down"></i></button>
                     </div>
                 </div>
                 <div class="slideItem">
                     <div class="slide_infor">
-                        <h1 class="slideTitle">Contact Infomation</h1>
-                        <p>
-                            Office Address: 6354 Entebbe road, airport road near purical hotel
-                            Branches: Arena mall, Imperial Mall, Victoria Mall and Purical hotel
-                            Contact number: +256754244838
-                            Email: tactical.ug@gmail.com
-                            Website: www.lifestyleoutdoorgear.com
-                        </p>
+                        <h1 class="slideTitle">Contact Information</h1>
+                        <span>Email: info@lifestyleoutdoorgear.com</span>
+                        <span>Contact number: +256754244838</span>
+                        <span>Website: www.lifestyleoutdoorgear.com</span>
+                        <span style="display: flex;justify-content: center;width: 100%;text-align: center;">Office Address: Suite No. G 08 Pulickal Airtport Hotel Plot 30 Airport Road Entebbe</span>
+                        <span style="display: flex;justify-content: center;width: 100%;text-align: center;">Branches: <br>Arena Mall, <br>Imperial Mall, <br>Victoria Mall and <br>Pulickal Hotel</span>
                     </div>
                     <div class="img">
                         <img src="./images/arival1.jpg" alt="">
@@ -152,11 +107,11 @@
             <div class="home_populars">
                 <div class="popular">
                     <div class="popular_image">
-                        <img src="./images/jacket.jpeg">
+                        <img src="./images/tacticalsoftshelljacket.png">
                     </div>
                     <div class="popular_desc">
-                        <h2>Tactical stryke pants</h2>
-                        <p>All types of tactical and hiking backpacks</p>
+                        <h2>Jackets</h2>
+                        <p>All types of Tactical, Hiking and Sporting Goretex Jackets</p>
                         <button>More <i class="las la-arrow-right"></i></button>
                     </div>
                 </div>
@@ -165,18 +120,8 @@
                         <img src="./images/short.jpeg">
                     </div>
                     <div class="popular_desc">
-                        <h2>Tactical stryke pants</h2>
-                        <p>All types of tactical and hiking backpacks</p>
-                        <button>More <i class="las la-arrow-right"></i></button>
-                    </div>
-                </div>
-                <div class="popular">
-                    <div class="popular_image">
-                        <img src="./images/pant.jpeg">
-                    </div>
-                    <div class="popular_desc">
-                        <h2>Tactical stryke pants</h2>
-                        <p>All types of tactical and hiking backpacks</p>
+                        <h2>Shorts</h2>
+                        <p>All types of Tactical, Hiking and Sporting Shorts</p>
                         <button>More <i class="las la-arrow-right"></i></button>
                     </div>
                 </div>
@@ -184,6 +129,7 @@
         </div>
         <div class="home_products" id="products">
             <h2 class="section_title">Featured Products</h2>
+            <i id="filters" class="las la-ellipsis-h"></i>
             <div class="products">
             	<aside>
             		<span class="aside_header">Product Categories</span>
@@ -211,18 +157,46 @@
             		</ul>
             		<span class="aside_header">Product Sizes</span>
             		<div class="all_sizes">
-            			<span>M</span>
-            			<span>L</span>
-            			<span>Xl</span>
-            			<span>XXL</span>
-            			<span>M</span>
-            			<span>L</span>
-            			<span>Xl</span>
-            			<span>XXL</span>
-            			<span>M</span>
-            			<span>L</span>
-            			<span>Xl</span>
-            			<span>XXL</span>
+                        <span>28</span>
+                        <span>29</span>
+                        <span>30</span>
+                        <span>31</span>
+                        <span>32</span>
+                        <span>33</span>
+                        <span>34</span>
+                        <span>35</span>
+                        <span>36</span>
+                        <span>38</span>
+                        <span>40</span>
+                        <span>40.5</span>
+                        <span>41</span>
+                        <span>41.5</span>
+                        <span>42</span>
+                        <span>42.5</span>
+                        <span>43</span>
+                        <span>43.5</span>
+                        <span>44</span>
+                        <span>44.5</span>
+                        <span>46</span>
+                        <span>46.5</span>
+                        <span>47</span>
+                        <span>47.5</span>
+
+                        <span>48</span>
+                        <span>48.5</span>
+                        <span>49</span>
+                        <span>49.5</span>
+                        <span>50</span>
+                        <span>XS</span>
+                        <span>S</span>
+                        <span>M</span>
+                        <span>L</span>
+                        <span>XL</span>
+                        <span>2XL</span>
+                        <span>3XL</span>
+                        <span>4XL</span>
+                        <span>5XL</span>
+                        <span>Re</span>
             		</div>
             		<span class="aside_header">Product Brands</span>
             		<ul>
@@ -230,20 +204,32 @@
             				<span>511</span>
             			</li>
             			<li>
-            				<span>Noth faces</span>
+            				<span>The North Face</span>
             			</li>
             			<li>
-            				<span>Under Amour</span>
+            				<span>Colombia</span>
             			</li>
-            			<li>
-            				<span>511</span>
-            			</li>
-            			<li>
-            				<span>Noth faces</span>
-            			</li>
-            			<li>
-            				<span>Under Amour</span>
-            			</li>
+                        <li>
+                            <span>Under Armour</span>
+                        </li>
+                        <li>
+                            <span>Leatherman</span>
+                        </li>
+                        <li>
+                            <span>Jack Wolfskin</span>
+                        </li>
+                        <li>
+                            <span>CAT</span>
+                        </li>
+                        <li>
+                            <span>Parajohn</span>
+                        </li>
+                        <li>
+                            <span>Merrell</span>
+                        </li>
+                        <li>
+                            <span>Other Brands</span>
+                        </li>
             		</ul>
             		<span class="aside_header">Product Colors</span>
             		<div class="all_colors">
@@ -265,7 +251,7 @@
             					<img src="./images/shirts.jpg">
             				</div>
             				<div class="p_details">
-            					<b>Tactical Stryke Pant</b>
+            					<b>Tactical Shirt</b>
             					<span><small>SHS</small>250,000</span>
             				</div>
             			</div>
@@ -274,26 +260,17 @@
             					<img src="./images/short.jpeg">
             				</div>
             				<div class="p_details">
-            					<b>Tactical Stryke Pant</b>
-            					<span><small>SHS</small>250,000</span>
+            					<b>Tactical Short</b>
+            					<span><small>SHS</small>210,000</span>
             				</div>
             			</div>
             			<div class="feature_p">
             				<div class="p_img">
-            					<img src="./images/jacket.jpeg">
+            					<img src="./images/tacticalsoftshelljacket.png">
             				</div>
             				<div class="p_details">
-            					<b>Tactical Stryke Pant</b>
-            					<span><small>SHS</small>250,000</span>
-            				</div>
-            			</div>
-            			<div class="feature_p">
-            				<div class="p_img">
-            					<img src="./images/shirt.jpg">
-            				</div>
-            				<div class="p_details">
-            					<b>Tactical Stryke Pant</b>
-            					<span><small>SHS</small>250,000</span>
+            					<b>Goretex Jacket</b>
+            					<span><small>SHS</small>325,000</span>
             				</div>
             			</div>
             		</div>
@@ -301,12 +278,12 @@
             	<section>
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/jacket.jpeg">
+                            <img src="./images/tacticalsoftshelljacket.png">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>325,000</b>
+                            <span>Tactical Jacket</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -315,8 +292,18 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>210,000</b>
+                            <span>Tactical Short</span>
+                        </div>
+                    </div>  
+                    <div class="product_info">
+                        <div class="product_img">
+                            <img src="./images/colombialong.jpg">
+                        </div>
+                        <span class="tag">New</span>
+                        <div class="product_desc">
+                            <b><small>Shs</small>250,000</b>
+                            <span>Hiking Shirt</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -326,7 +313,7 @@
                         <span class="tag">New</span>
                         <div class="product_desc">
                             <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <span>Rapid Assault Shirt</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -335,8 +322,8 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>250,000</b>
+                            <span>Tactical Vest</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -345,8 +332,8 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>250,000</b>
+                            <span>Tactical Shirt</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -355,8 +342,8 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>630,000</b>
+                            <span>Luggage Case</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -366,7 +353,7 @@
                         <span class="tag">New</span>
                         <div class="product_desc">
                             <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <span>Tactical pant</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -375,8 +362,8 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>570,000</b>
+                            <span>Hiking Boot</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -385,8 +372,8 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>115,000</b>
+                            <span>Tactical Gloves</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -395,8 +382,8 @@
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>630,000</b>
+                            <span>Hiking Backpack</span>
                         </div>
                     </div>  
                     <div class="product_info">
@@ -406,137 +393,87 @@
                         <span class="tag">New</span>
                         <div class="product_desc">
                             <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <span>Tactical Glasses</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/jacket.jpeg">
+                            <img src="./images/flashlight.jpg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>230,000</b>
+                            <span>Tactical Flashlight</span>
                         </div>
                     </div>   
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/jacket.jpeg">
+                            <img src="./images/multitool.jpg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>550,000</b>
+                            <span>Multi-tool</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/short.jpeg">
+                            <img src="./images/headlamp.jpeg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>230,000</b>
+                            <span>Tactical Headlamp</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/shirt.jpg">
+                            <img src="./images/foldingknife.jpeg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>285,000</b>
+                            <span>Tactical Knife</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/tshirt.jpg">
+                            <img src="./images/outdoorcap.jpg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>80,000</b>
+                            <span>Outdoor Cap</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/shirts.jpg">
+                            <img src="./images/sunhat.jpg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>95,000</b>
+                            <span>Outdoor Sun Hat</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/suitcase.jpg">
+                            <img src="./images/wallets.jpg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>325,000</b>
+                            <span>Wallet</span>
                         </div>
                     </div>  
                     <div class="product_info">
                         <div class="product_img">
-                            <img src="./images/pant.jpeg">
+                            <img src="./images/waterbottle.jpg">
                         </div>
                         <span class="tag">New</span>
                         <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
-                        </div>
-                    </div>  
-                    <div class="product_info">
-                        <div class="product_img">
-                            <img src="./images/moabshoe.jpeg">
-                        </div>
-                        <span class="tag">New</span>
-                        <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
-                        </div>
-                    </div>  
-                    <div class="product_info">
-                        <div class="product_img">
-                            <img src="./images/accesories.png">
-                        </div>
-                        <span class="tag">New</span>
-                        <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
-                        </div>
-                    </div>  
-                    <div class="product_info">
-                        <div class="product_img">
-                            <img src="./images/northfaceterrabag.jpeg">
-                        </div>
-                        <span class="tag">New</span>
-                        <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
-                        </div>
-                    </div>  
-                    <div class="product_info">
-                        <div class="product_img">
-                            <img src="./images/eyewear.jpg">
-                        </div>
-                        <span class="tag">New</span>
-                        <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
-                        </div>
-                    </div>  
-                    <div class="product_info">
-                        <div class="product_img">
-                            <img src="./images/jacket.jpeg">
-                        </div>
-                        <span class="tag">New</span>
-                        <div class="product_desc">
-                            <b><small>Shs</small>270,000</b>
-                            <span>Tactical stryke pants</span>
+                            <b><small>Shs</small>210,000</b>
+                            <span>Water Bottle</span>
                         </div>
                     </div>   
                 </section>
@@ -565,7 +502,7 @@
                 </div>
                 <div class="category_item">
                     <div class="category_image">
-                        <img src="./images/jacket.jpeg">
+                        <img src="./images/tacticalsoftshelljacket.png">
                     </div>
                     <div class="category_info">
                         <h2 class="category_name">Jackets</h2>
@@ -643,8 +580,8 @@
                     <img src="./images/arival.jpg">
                 </div>
                 <div class="newItem">
-                    <h2>New arivals</h2>
-                    <span>Authentic outdoorgear</span>
+                    <h2>New Arrivals</h2>
+                    <span>Authentic Outdoor Gear</span>
                 </div>
                 <div class="newItem">
                     <img src="./images/arival2.jpg">
@@ -654,25 +591,15 @@
         <div class="home_productD">
             <div class="productD_img">
                 <i class="las la-chevron-left"></i>
-                <img src="./images/jacket.jpeg">
+                <img src="./images/tacticalsoftshelljacket.png">
                 <i class="las la-chevron-right"></i>
             </div>
             <div class="productD_info">
                 <h2>Jacket</h2>
                 <p>
-                    A jacket typically has sleeves, and fastens in the front or slightly on the side. A jacket is generally lighter, tighter-fitting, and less insulating than a coat, which is outerwear. Some jackets are fashionable, while others serve as protective clothing. Jackets without sleeves are vests
-                    Find Quality Results & Answers. Search Faster, Better & Smarter at outdoorgear Now! Explore the Best Info Now. Powerful and Easy to Use. 100+ Qualitative Results. Discover Quality Results.
-                    Tactical and hiking jackets, available in different sizes and colours as listed below
+                    Reliable waterproof jacket for all sporting activities in a stylish and windproof material designed to support you and keep you moving.
+
                 </p>
-                <div class="size">
-                    <p>Sizes</p>
-                    <span>45.5</span>
-                    <span>45.5</span>
-                    <span>45.5</span>
-                    <span>45.5</span>
-                    <span>45.5</span>
-                    <span>45.5</span>
-                </div>
             </div>
         </div>
         <div class="home_contact" id="contacts">
@@ -697,77 +624,58 @@
                 <button>Send</button>
             </form>
             <div class="contact_info">
-                <h3>Contact Infomation, Connect with us at</h3>
-                <span>Office Address: 6354 Entebbe road, airport road near purical hotel</span>
-                <span>Branches: Arena mall, Imperial Mall, Victoria Mall and Purical hotel</span>
+                <h3>Contact Infomation</h3>
+                <b>Office Address:</b>
+                <span style="display: flex; justify-content: center;">Suite No. G 08 Pulickal Airtport Hotel Plot 30 Airport Road Entebbe</span>
+                <b>Branches: </b>
+                <span>
+                    Arena Mall, Imperial Mall, Victoria Mall and Pulickal Hotel
+                </span>
                 <span>Contact number: +256754244838</span>
-                <span>Email: tactical.ug@gmail.com</span>
+                <span>Email: info@lifestyleoutdoorgear.com</span>
                 <span>Website: www.lifestyleoutdoorgear.com</span>
             </div>
         </div>
     </section>
     <footer>
         <div class="outlet">
-            <b>Outdoorger Outlets</b>
-            <span>Arena Mall Branch<i class="las la-arrow-right"></i></span>
-            <span>Pulickal Hotel Branch<i class="las la-arrow-right"></i></span>
-            <span>Imperial Mall Branch<i class="las la-arrow-right"></i></span>
-            <span>Victoria Mall Branch<i class="las la-arrow-right"></i></span>
+            <b>Retail Outlets</b>
+            <span>Arena Mall Branch</span>
+            <span>Pulickal Hotel Branch</span>
+            <span>Imperial Mall Branch</span>
+            <span>Victoria Mall Branch</span>
         </div> 
         <div class="crands">
-            <b>Featured brands</b>
+            <b>Featured Brands</b>
             <span><i class="las la-chevron-right"></i>CAT</span>
             <span><i class="las la-chevron-right"></i>Merrell</span>
             <span><i class="las la-chevron-right"></i>Jack Wolfskin</span>
-            <span><i class="las la-chevron-right"></i>North Face</span>
+            <span><i class="las la-chevron-right"></i>The North Face</span>
             <span><i class="las la-chevron-right"></i>Under Armour</span>
             <span><i class="las la-chevron-right"></i>Colombia</span>
         </div>
         <div class="categories">
-            <b>Featured categories</b>
-            <span>Pants <small>345</small></span>
-            <span>Shirts <small>345</small></span>
-            <span>Shorts <small>345</small></span>
-            <span>Backpacks <small>345</small></span>
-            <span>Jackets <small>345</small></span>
-            <span>Footwear <small>345</small></span>
-            <span>Eye wear <small>345</small></span>
-            <span>Accessories <small>345</small></span>
+            <b>Featured Categories</b>
+            <span>Pants <small>45</small></span>
+            <span>Shirts <small>34</small></span>
+            <span>Shorts <small>25</small></span>
+            <span>Backpacks <small>81</small></span>
+            <span>Jackets <small>23</small></span>
+            <span>Footwear <small>60</small></span>
+            <span>Eye wear <small>25</small></span>
+            <span>Accessories <small>71</small></span>
         </div>
         <div class="contacts">
             <b>Contact Details</b>
-            <span>Address: 6354 Entebbe road, airport road purical hotel</span>
+            <span>Address: Suite No. G 08 Pulickal Airtport Hotel Plot 30 Airport Road Entebbe</span>
             <span>Contact: +256754244838</span>
-            <span>Email: tactical.ug@gmail.com</span>
+            <span>Email: info@lifestyleoutdoorgear.com</span>
             <span>Website: www.lifestyleoutdoorgear.com</span>
             <span><i class="lab la-facebook"></i><i class="lab la-twitter"></i><i class="lab la-instagram"></i></span>
         </div>
     </footer>
 
 <script>
-// // var slideIndex = 0;
-// showSlides();
-
-// function showSlides() {
-//   var i;
-//   var slides = document.getElementsByClassName("slideItem");
-//   var dots = document.getElementsByClassName("dot");
-//   let l = 300;
-//   for (i = 0; i < slides.length; i++) {
-//     slides[i].style.display = "none";  
-//   }
-//   slideIndex++;
-//   if (slideIndex > slides.length) {slideIndex = 1}    
-//   for (i = 0; i < dots.length; i++) {
-//     dots[i].className = dots[i].className.replace(" active", "");
-//   }
-//   slides[slideIndex-1].style.display = "block";  
-  // document.querySelector('.slideContainer').style.transfrom = `translateX(${-100 * slideIndex}vw)`;
-//   console.log(document.querySelector('.slideContainer'));
-//   l = (l == 0)  ? 300: 1-100;
-//   dots[slideIndex-1].className += " active";
-//   setTimeout(showSlides, 2000); // Change image every 2 seconds
-// }
 
 var slideIndex = 1;
 let count = 0;
@@ -797,11 +705,27 @@ const showSlides = () => {
     }
     dots[slideIndex-1].className += " active";
     document.querySelector('.slideContainer').style.transform = `translateX(${-100 * (slideIndex-1)}vw)`;
-    setTimeout(showSlides, 10000); // Change image every 10 seconds
+    setTimeout(showSlides, 10000); 
 
 }
 showSlides();
+const showTime = () => {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
 
+    document.getElementById('currentTime').textContent = time;
+    setTimeout(showTime, 1000); 
+}
+showTime();
+
+document.getElementById('toggle').addEventListener('click', () => {
+    document.querySelector('.vBox').classList.toggle('show');
+})
+document.getElementById('filters').addEventListener('click', () => {
+    document.querySelector('aside').classList.toggle('show');
+})
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="module" src="js/main.js"></script>

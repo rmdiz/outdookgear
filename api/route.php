@@ -81,8 +81,14 @@
 		case 'update_product':
 			$productController->updateProduct($_POST['data']);
 			break;
+		case 'update_inventory':
+			$productController->updateInventory($_POST['data'], $_POST['id']);
+			break;
 		case 'get_product_details':
 			$productController->getProductDetails($_POST['product_id']);
+			break;
+		case 'get_inventory_details':
+			$productController->getInventoryDetails($_POST['id']);
 			break;
 		case 'authenticate':
 			require_once('../api/Auth.php');

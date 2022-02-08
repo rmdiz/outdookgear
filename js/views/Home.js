@@ -317,6 +317,117 @@ export default class extends General{
 
 	}
 
+	async fetchInventoryProducts(){
+		const data = {
+		    'action':'fetch_all_inventory_products'
+	    }
+
+	    this.ajaxRequest = super.run(data);
+	    return await this.formatData(this.ajaxRequest);
+	}
+
+	async formatData(data){
+        let PDT_INFO = {};
+        let productColors = {};
+        let productSizes = [];
+        let s = [];
+        let so = {};
+		data.always(function(result){ 
+			if(result.response == "success"){
+				result.message.forEach((line) => {
+		        	if(PDT_INFO[line.name] != "object"){
+	                    productSizes.push(
+	                            {
+	                                'colour_id': line.colour_id,
+	                                "inventory_id":  line.inventory_id,
+	                                "id":  line.id,
+	                                "product_code":  line.product_code,
+	                                "size_label": line.size_label,
+	                                "size_id": line.size_id,
+	                                "quantity": line.quantity,
+	                                "desc":  line.desc,
+	                                "created_at":  line.created_at,
+	                                "deleted_at":  line.deleted_at,
+	                                "modified_at":  line.modified_at,
+	                            }
+	                        )
+	                    productColors[line.colour_name] = {
+	                                'colour_id': line.colour_id,
+	                                'colour_name': line.colour_name,
+	                                'img': line.product_image,
+	                                "sizeSpecific":  productSizes.map((productSize) => {
+	                                	// GET CORRESPONDING SIZES FOR COLOURS
+	                                	if(productSize.colour_id ==line.colour_id){
+	                                		s.push(productSize);
+	                                		return so[productSize.colour_id] = [productSize]
+	                                	}
+	                                })
+	                            };
+	                    PDT_INFO[line.name] = {
+	                        "name":  line.name,
+	                        "brand_id":  line.brand_id,
+	                        "brand_name":  line.brand_name,
+	                        "buy_price":  line.buy_price,
+	                        "category_id":  line.category_id,
+	                        "category_name":  line.category_name,
+	                        "remarks":  line.remarks,
+	                        "sale_price":  line.sale_price,
+	                        "supplier":  line.supplier,
+	                        "supplier_id":  line.supplier_id,
+	                        "colourSpecific":  productColors,
+	                        // "sizeSpecific":  productSizes,
+	                    }
+	                }else{
+	                    
+	                    productSizes.push(
+	                        {
+	                            "product_code":  line.product_code,
+	                            "size_label": line.size_label,
+	                            "size_id": line.size_id,
+	                            "quantity": line.quantity,
+	                            "desc":  line.desc,
+	                            "created_at":  line.created_at,
+	                            "deleted_at":  line.deleted_at,
+	                            "id":  line.id,
+	                            "inventory_id":  line.inventory_id,
+	                            "modified_at":  line.modified_at,
+	                        }
+	                    );
+	                    Object.keys(productColors).forEach((colour) => {
+	                    	if(colour != line.colour_name){
+			                   productColors[line.colour_name] = {
+	                                'colour_id': line.colour_id,
+	                                'colour_name': line.colour_name,
+	                                'img': line.product_image,
+	                                "sizeSpecific":  productSizes.map((productSize) => {
+	                                	return productSize
+	                                })
+	                            };
+	                    	}
+	                    })
+	                }
+		        });
+			}
+			console.log(productSizes);
+			productSizes.forEach((productSize) => {
+				console.log(productSize.colour_id)
+			})
+			console.log(PDT_INFO)
+			return false;
+			// result = PDT_INFO;
+			// if(!localStorage.getItem('outdoorgear')){
+   //          	localStorage.setItem('outdoorgear', JSON.stringify(this.site));
+	  //       }
+	  //       this.site = JSON.parse(localStorage.getItem('outdoorgear'));
+	  //       let item = [];
+	  //       Object.keys(PDT_INFO).forEach((line) => {
+	  //       	item.push(PDT_INFO[line]);
+	  //       })
+	  //       this.site['fetch_inventory_products_formated'] = item;
+	  //       localStorage.setItem('outdoorgear', JSON.stringify(this.site));
+		});
+
+	}
 	async getCategories(){
 		const data = {
 		    'action':'fetch_all_categories'

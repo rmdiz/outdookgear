@@ -98,6 +98,32 @@ const router = async () => {
 
             switch(activeView.page.path.split('=')[1]){
                 case 'home':
+                    let inv = await view.fetchInventoryProducts();
+                    console.log(inv);
+                    // let formating = getLocalData().fetch_inventory_products_formated;
+                    // console.log(formating);
+                    // let productInfo = [];
+                    // let cNs = [];
+                    // Object.keys(formating).forEach((index) => {
+                    //     console.log(formating[index].colour)
+                    //     Object.keys(formating[index].colour).forEach((line) => {
+                    //         console.log(formating[index].colour[line].colour_name);
+                    //         console.log(formating[index].colour[line].colour_id);
+                    //         let colour_n = formating[index].colour[line].colour_name;
+                    //         let colour_i = formating[index].colour[line].colour_id;
+                    //         // if(Object.keys(productInfo).includes(col))
+                    //         productInfo.push({id: colour_i, name: colour_n});
+                    //     });
+                    //     Object.keys(formating[index].size).forEach((line) => {
+                    //         console.log(formating[index].colour[line].colour_id);
+                    //         let id = formating[index].colour[line].colour_id;
+                    //         cNs.push({id:id})
+                    //     });
+
+
+                    // });
+                    // console.log(productInfo)
+                    // console.log(cNs)
                     // GET THE PRODUCTS FROM LOCAL STORAGE
                     // let tData = setInterval(getData ,1000);
                     // console.log(tData) sale_info
@@ -418,30 +444,93 @@ const router = async () => {
                     // CREATE INVENTORY SUBMITION
                     document.querySelector('.inventory_in').addEventListener('submit', (e) => {
                         e.preventDefault();
-                        let inventoryProduct = {
-                            'quantity' : document.getElementById('add_inventory_quantity').value,
-                            'product_id' : document.getElementById('add_inventory_product_id').value,
-                            'branch_id' : document.getElementById("add_inventory_branch").value,
-                            'discount_id' : document.getElementById("add_inventory_discount").value,
-                            'status_id' : document.getElementById("add_inventory_status").value,
-                        }
+                        if(document.getElementById('saveInventory').value == "Save"){
 
-                        if(document.getElementById('add_inventory_quantity').value != "" && document.getElementById("add_inventory_branch").value !=""){
-                            let response = view.addProductToInventory(inventoryProduct);
-                            // console.log(response);
-                            response.always(function(data){
-                                console.log(data);
-                                document.querySelector('.popups').classList.remove('active')
-                                // navigateTo('home.html?pg=products');
+                            let inventoryProduct = {
+                                'quantity' : document.getElementById('add_inventory_quantity').value,
+                                'product_id' : document.getElementById('add_inventory_product_id').value,
+                                'branch_id' : document.getElementById("add_inventory_branch").value,
+                                'discount_id' : document.getElementById("add_inventory_discount").value,
+                                'status_id' : document.getElementById("add_inventory_status").value,
+                            }
 
-                                // SHOW INVENTORY LIST
-                                // inventory = view.getInventory();
-                                // inventory = view.addInventory(inventory.message, document.getElementById('inventory_items'));
-                                
-                            });
+                            if(document.getElementById('add_inventory_quantity').value != "" && document.getElementById("add_inventory_branch").value !=""){
+                                let response = view.addProductToInventory(inventoryProduct);
+                                // console.log(response);
+                                response.always(function(data){
+                                    console.log(data);
+                                    document.querySelector('.popups').classList.remove('active')
+                                    // navigateTo('home.html?pg=products');
 
+                                    // SHOW INVENTORY LIST
+                                    // inventory = view.getInventory();
+                                    // inventory = view.addInventory(inventory.message, document.getElementById('inventory_items'));
+                                    
+                                });
+
+                            }
                         }
                     })
+
+                    // UPDATE INVENTORY INFORMATION
+                     document.querySelectorAll('.edit_inventory').forEach((edit_inventory) => {
+                        edit_inventory.addEventListener('click', (e) => {
+                            e.preventDefault();
+
+                            // console.log();
+                            document.querySelector('.popups').classList.add('active');
+                            document.querySelector('.inventory_in').classList.add('active');
+                            document.querySelector('.product_in').classList.remove('active');
+
+                            document.getElementById('saveInventory').setAttribute('value', 'Update');
+
+                            if(document.getElementById('saveInventory').value == "Update"){
+                                // GET PRODUCT INFORMATION
+                                let inventoryID = edit_inventory.dataset.inventoryid;
+                                document.getElementById('saveInventory').dataset.inventoryid = edit_inventory.dataset.inventoryid;
+                                console.log(inventoryID);
+                                let response = view.specificityOperation(inventoryID, 'get_inventory_details', {});
+                                response.always(function(data){
+                                    console.log(data.message[0] )
+                                    // ASSIGN PRODUCT INFORMATION TO THE FORM FIELD IN THE CREATE 
+                                    document.getElementById('add_inventory_quantity').value = data.message[0].quantity;
+                                    setSelectedValue(document.getElementById('add_inventory_category'), data.message[0].category_id );
+                                    setSelectedValue(document.getElementById('add_inventory_brand'), data.message[0].brand_id );
+                                    setSelectedValue(document.getElementById('add_inventory_branch'), data.message[0].branch_id );
+                                    setSelectedValue(document.getElementById('add_inventory_status'), data.message[0].status_id );
+                                    setSelectedValue(document.getElementById('add_inventory_discount'), data.message[0].discount_id );
+
+                                    document.getElementById("add_inventory_product_code").value = data.message[0].product_code.toUpperCase();
+                                    document.getElementById("add_inventory_product_name").value = titleCase(data.message[0].name);
+                                    document.getElementById("add_inventory_buy_price").value = addComma(data.message[0].buy_price);
+                                    document.getElementById("add_inventory_sale_price").value = addComma(data.message[0].sale_price);
+                                    document.querySelector('.inventory_in').addEventListener('submit', (e) => {
+                                        e.preventDefault();
+                                        // UPDATE ACTION
+                                        let inventoryProduct = {
+                                            'quantity' : document.getElementById('add_inventory_quantity').value,
+                                            'product_id' : document.getElementById('add_inventory_product_id').value,
+                                            'branch_id' : document.getElementById("add_inventory_branch").value,
+                                            'discount_id' : document.getElementById("add_inventory_discount").value,
+                                            'status_id' : document.getElementById("add_inventory_status").value,
+                                        }
+
+                                        let response = view.specificityOperation(document.getElementById('saveInventory').dataset.inventoryid, 'update_inventory', inventoryProduct);
+                                        response.always(function(data){
+                                            deliverNotification(data.message, 'success');
+                                            document.getElementById('saveInventory').setAttribute('value', 'Save');
+                                        });
+                                       
+                                        document.querySelector('.popups').classList.remove('active');
+                                        navigateTo('home.html?pg=products');
+
+                                            
+                                    });
+                                });
+
+                            }
+                        });
+                    });
 
 
                     

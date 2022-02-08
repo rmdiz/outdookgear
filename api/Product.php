@@ -203,7 +203,92 @@ class Product{
 		echo json_encode(array('response' => "success", 'message' => "Operation completed successfully"));
 
 	}
+	public function updateInventory($inventory_details, $id){
+		$inventory = array(
+			'quantity' =>  (int)$inventory_details['quantity'], 
+			'status_id' =>  (int) $inventory_details['status_id'], 
+			'branch_id' => (int) $inventory_details['branch_id'], 
+			'discount_id' =>  (int) $inventory_details['discount_id']
+		);
+		$inventory_info = $this->p_instance->updateDetails('inventory_tb', 'inventory_id', (int) $id, $inventory);
+		if($inventory_info){
+			echo json_encode(array('response' => "success", 'message' => "Operation completed successfully"));
+		}else{
+			echo json_encode(array('response'=> "failed", 'message' => 'Nothing found'));
+		}
 
+	}
+	public function getInventoryDetails($id){
+		$sql = "
+			SELECT iv.inventory_id, iv.quantity, iv.branch_id, iv.discount_id , iv.discount_id, iv.status_id, pt.*, cy.category_name, bd.brand_name, cr.colour_name, sz.size_label, CONCAT(sr.fname, ' ', sr.lname)AS supplier, pi.product_image FROM inventory_tb iv
+				LEFT OUTER JOIN product_tb pt 
+                ON iv.product_id = pt.product_id
+				LEFT OUTER JOIN category_tb cy 
+				ON pt.category_id = cy.category_id 
+				LEFT OUTER JOIN brand_tb bd 
+				ON pt.brand_id = bd.brand_id 
+				LEFT OUTER JOIN colour_tb cr 
+				ON pt.colour_id = cr.colour_id 
+				LEFT OUTER JOIN size_tb sz 
+				ON pt.size_id = sz.size_id 
+				LEFT OUTER JOIN supplier_tb sr 
+				ON pt.supplier_id = sr.supplier_id
+                LEFT OUTER JOIN product_image_tb pi
+                ON pi.product_id = pt.product_id
+                LEFT OUTER JOIN discount_tb dt 
+                ON dt.discount_id = iv.discount_id
+                WHERE iv.inventory_id = ?
+				ORDER BY pt.product_id DESC
+			";
+
+		$result = $this->p_instance->getDetails($sql, array('inventory_id' => $id));
+
+		// GET NUMBER OF ROWS
+		$num = $result->rowCount();
+		if($num > 0){
+			$productArr = array();
+
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+				extract($row);
+
+				$product_item = array(
+					'id' => $product_id,
+					'quantity' => $quantity,
+					'inventory_id' => $inventory_id,
+					'name' => $product_name,
+					'desc' => $description,
+					'category_id' => $category_id, 
+					'remarks' => $remarks, 
+					'sale_price' => $sale_price, 
+					'buy_price' => $buy_price, 
+					'brand_id' => $brand_id, 
+					'colour_id' => $colour_id, 
+					'size_id' => $size_id, 
+					'brand_name' => $brand_name, 
+					'branch_id' => $branch_id, 
+					'colour_name' => $colour_name, 
+					'category_name' => $category_name, 
+					'status_id' => $status_id, 
+					'discount_id' => $discount_id, 
+					'size_label' => $size_label, 
+					'supplier' => $supplier, 
+					'product_code' => $product_code, 
+					'product_image' => ($product_image == null) ? "default.png": $product_image, 
+					'supplier_id' => $supplier_id, 
+					'created_at' => $created_at, 
+					'modified_at' => $modified_at, 
+					'deleted_at' => $deleted_at
+				);
+
+				array_push($productArr, $product_item);
+			}
+			// CONVERT OT JSON
+			echo json_encode(array('response' => "success", 'message' => $productArr));
+		}
+		else{
+			echo json_encode(array('response'=> "failed", 'message' => 'Nothing found'));
+		}
+	}
 	public function getProductDetails($product_id){
 		$sql = "
 			SELECT pt.*, cy.category_name, bd.brand_name, cr.colour_name, sz.size_label, CONCAT(sr.fname, ' ', sr.lname)AS supplier FROM product_tb pt 
