@@ -1,4 +1,4 @@
-/** GOOGLE FONTS header **/
+/** GOOGLE FONTS printReceipt **/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;600&display=swap');
 
 /*** VARIABLES page billing ***/
@@ -471,6 +471,11 @@ header form.search input{
 	border-radius: 55px;
 	font-size: 1rem;
 	border: 1px solid #ccc;
+}
+header form.search label{
+	position: absolute;
+	right: 0;
+	top: 30%;
 }
 header form.search i{
 	position: absolute;
@@ -2560,7 +2565,7 @@ span.status{
 }
 .product_full_details .product_full_img .p_infor{
 	width: 100%;
-	height: 8rem;
+	height: 10rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -2585,7 +2590,7 @@ span.status{
 	position: relative;
 }
 .product_full_details .product_full_info h2{
-	font-size: 1.5rem;
+	font-size: 1rem;
 	color: gray;
 	padding: .5rem 0 ;
 }
@@ -2829,6 +2834,11 @@ span.status{
 	flex-direction: column;
 	width: 350px;
 
+}
+label.printReceipt{
+	padding-top: .8rem;
+	padding: .5rem .8rem;
+	display: flex;
 }
 .receipt_overlay.active{
 	left: 0;

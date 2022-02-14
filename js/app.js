@@ -97,36 +97,7 @@ const router = async () => {
 
 
             switch(activeView.page.path.split('=')[1]){
-                case 'home':
-                    let inv = await view.fetchInventoryProducts();
-                    console.log(inv);
-                    // let formating = getLocalData().fetch_inventory_products_formated;
-                    // console.log(formating);
-                    // let productInfo = [];
-                    // let cNs = [];
-                    // Object.keys(formating).forEach((index) => {
-                    //     console.log(formating[index].colour)
-                    //     Object.keys(formating[index].colour).forEach((line) => {
-                    //         console.log(formating[index].colour[line].colour_name);
-                    //         console.log(formating[index].colour[line].colour_id);
-                    //         let colour_n = formating[index].colour[line].colour_name;
-                    //         let colour_i = formating[index].colour[line].colour_id;
-                    //         // if(Object.keys(productInfo).includes(col))
-                    //         productInfo.push({id: colour_i, name: colour_n});
-                    //     });
-                    //     Object.keys(formating[index].size).forEach((line) => {
-                    //         console.log(formating[index].colour[line].colour_id);
-                    //         let id = formating[index].colour[line].colour_id;
-                    //         cNs.push({id:id})
-                    //     });
-
-
-                    // });
-                    // console.log(productInfo)
-                    // console.log(cNs)
-                    // GET THE PRODUCTS FROM LOCAL STORAGE
-                    // let tData = setInterval(getData ,1000);
-                    // console.log(tData) sale_info
+                case 'home':                    
                     let homeData = await getData();
                     if(typeof(homeData.all_inventory_products_formated) == "object"){
                         // ADD PRODUCTS TO THE HOME PAGE
@@ -147,8 +118,9 @@ const router = async () => {
 
                     // ONCLICK SHOW PRODUCT DETAILS
                     p_details.forEach((p_detail, index) => p_detail.addEventListener('click', () => {
-                        console.log(p_detail.dataset.product);
-                        p_full_details.innerHTML = view.getPFDetails(homeData.all_inventory_products_formated[index]);
+                        // console.log(p_detail.dataset.product);
+
+                        p_full_details.innerHTML = view.addPDFTemplate();
                         document.getElementById('add_cart').dataset.index = index;
 
                         document.getElementById('product_full_details').classList.add('show');
@@ -158,15 +130,54 @@ const router = async () => {
                             p_full_details.classList.toggle('show');
                         });
 
-                        const available_colors_span = document.querySelectorAll('.available_colors span');
-                        // REMOVE ACTIVE CLASS FROM ALL COLORS
-                        setActiveClass(available_colors_span, 'selected', homeData.all_inventory_products_formated[index],view); 
-                        warning(document.querySelectorAll('#home_available_colors span'), '#home_available_colors', "Select product colour first");
-                        warning(document.querySelectorAll('#size_list span'), '#home_available_colors', "Select product colour first");
-                        warning(document.querySelectorAll('.quantity_adjuster a'), '#size_list', "Select product colour and size first");
-                        warning(document.querySelectorAll('.conc button'), '#size_list', "Select colour, size and quantity first");
+                        // GET PRODUCT DETAILS
+                        let PDTL = new Products().search("product_name", p_detail.dataset.product, "fetch_product_by_name");
+                        PDTL.always(function(data){
+                            if(data.response = "success"){
+                                // COLORS
+                                // console.log(data.message[1]);
+                                let pColors = `<b>Select Color</b>`;
+                                let count = 1;
+                                data.message[1].forEach((color_name) => {
+                                    home_available_colors
+                                    pColors += `<span class='select_color ${(count == 1) ? 'selected': ''}' data-color="${color_name}">${color_name}</span>`;
+                                    count++;
+                                });
+                                document.getElementById('home_available_colors').innerHTML = pColors;
+                                setActiveClass(document.querySelectorAll('#home_available_colors span'), 'selected', data.message[2]);
 
+                                // SIZES
+                                // console.log(data.message[2]);
+                                let pCSize = ``;
+                                data.message[2].forEach((psize) => {
+                                    // console.log(psize)
+                                    if(document.querySelector('.available_colors .selected').dataset.color == psize.colour_name){
+                                        pCSize += `<span "class='select_size' data-size="${psize.size_label}" data-id ="${psize.size_label}" >${psize.size_label}</span>`;
 
+                                    }
+
+                                });
+                                document.getElementById('size_list').innerHTML = pCSize;
+                                setActiveClass(document.querySelectorAll('#size_list span'), 'selected', data.message[2]);
+
+                                // GET THE FIRST PRODUCT DETAILS IN THE LIST AND DISPLAY THEMM
+                                // console.log(data.message[2][0])
+                                document.getElementById('pName').textContent = data.message[2][0].name;
+                                document.getElementById('pCategory').textContent = data.message[2][0].category_name;
+                                document.getElementById('pProductCode').textContent = data.message[2][0].product_code;
+                                document.getElementById('pBrandName').textContent = data.message[2][0].brand_name;
+                                document.getElementById('pDesc').textContent = data.message[2][0].desc;
+                                document.getElementById('pPrice').textContent = addComma(data.message[2][0].sale_price.toString());
+                                document.getElementById('add_cart').dataset.id = data.message[2][0].id;
+                                document.getElementById('add_cart').dataset.inventory_id = data.message[2][0].inventory_id;
+                                document.getElementById('add_cart').style.backgroundColor = "green";
+                                document.querySelector('.remove_quantity').dataset.id = data.message[2][0].id;
+                                document.querySelector('.add_quantity').dataset.id = data.message[2][0].id;
+                                document.getElementById('item_d_quantity').value = 1;
+                                document.getElementById('pImage').setAttribute('src', (data.message[2][0].product_image == null) ? "./images/default.png": "./images/" + data.message[2][0].product_image);
+
+                            }
+                        });
                     }));
                   
                     // CLOSE PRODUCT DETAILS WHEN YOU CLICK ON DARK PART add_cart
@@ -374,8 +385,8 @@ const router = async () => {
 
                                 document.getElementById("create_product_product_code").value = data.message[0].product_code.toUpperCase();
                                 document.getElementById("create_product_product_name").value = titleCase(data.message[0].name);
-                                document.getElementById("create_product_buy_price").value = addComma(data.message[0].buy_price);
-                                document.getElementById("create_product_sale_price").value = addComma(data.message[0].sale_price);
+                                document.getElementById("create_product_buy_price").value = addComma(data.message[0].buy_price.toString());
+                                document.getElementById("create_product_sale_price").value = addComma(data.message[0].sale_price.toString());
                                 document.getElementById("create_product_remarks").value = data.message[0].remarks;
                                 document.getElementById("create_product_product_discription").value = data.message[0].desc;
                                 let image_name = (data.message[0].product_image != null) ? data.message[0].product_image : 'default.png';
@@ -459,10 +470,11 @@ const router = async () => {
                                 // console.log(response);
                                 response.always(function(data){
                                     console.log(data);
+                                    deliverNotification(data.message, 'success');
                                     document.querySelector('.popups').classList.remove('active')
                                     // navigateTo('home.html?pg=products');
 
-                                    // SHOW INVENTORY LIST
+                                    // SHOW INVENTORY LIST p_details
                                     // inventory = view.getInventory();
                                     // inventory = view.addInventory(inventory.message, document.getElementById('inventory_items'));
                                     
@@ -492,7 +504,7 @@ const router = async () => {
                                 let response = view.specificityOperation(inventoryID, 'get_inventory_details', {});
                                 response.always(function(data){
                                     console.log(data.message[0] )
-                                    // ASSIGN PRODUCT INFORMATION TO THE FORM FIELD IN THE CREATE 
+                                    // ASSIGN PRODUCT INFORMATION TO THE FORM FIELD IN THE CREATE p_info
                                     document.getElementById('add_inventory_quantity').value = data.message[0].quantity;
                                     setSelectedValue(document.getElementById('add_inventory_category'), data.message[0].category_id );
                                     setSelectedValue(document.getElementById('add_inventory_brand'), data.message[0].brand_id );
@@ -502,8 +514,8 @@ const router = async () => {
 
                                     document.getElementById("add_inventory_product_code").value = data.message[0].product_code.toUpperCase();
                                     document.getElementById("add_inventory_product_name").value = titleCase(data.message[0].name);
-                                    document.getElementById("add_inventory_buy_price").value = addComma(data.message[0].buy_price);
-                                    document.getElementById("add_inventory_sale_price").value = addComma(data.message[0].sale_price);
+                                    document.getElementById("add_inventory_buy_price").value = addComma(data.message[0].buy_price.toString());
+                                    document.getElementById("add_inventory_sale_price").value = addComma(data.message[0].sale_price.toString());
                                     document.querySelector('.inventory_in').addEventListener('submit', (e) => {
                                         e.preventDefault();
                                         // UPDATE ACTION
@@ -531,9 +543,20 @@ const router = async () => {
                             }
                         });
                     });
+                
+                break;
 
+                case 'sales':
+                    // let sale = new Sales().performOperation(null, 'get_sales', null);
+                    // console.log(sale);
+                    // sale.always(function(data){
+                    //     console.log(data);
+                    //     if(data.response == 'success'){
 
-                    
+                    //     }
+
+                    // });
+                    new Sales().generateSales();
                 break;
 
                 case 'signin':
@@ -628,59 +651,59 @@ const setActiveClass = (elementList, elementClass, homeProducts) => {
         // SET ACTIVE CLASS TO CLICKED element
         element.classList.toggle('selected');
 
-        getSelected(document.querySelector('.available_colors .selected'),  homeProducts);
+        // RESET QUANTITY TO ZERO
+        document.getElementById('item_d_quantity').dataset.quantity = 1;
+        document.getElementById('item_d_quantity').value = 1;
+        
 
-        // GET DETAILS FOR THE SELECTED COLOR
-        document.getElementById('pImage').setAttribute('src', "./images/" + homeProducts.colour[index].img);
-
-            document.getElementById('item_d_quantity').dataset.quantity = 1;
-            document.getElementById('item_d_quantity').value = 1;
-
+        getSelected(document.querySelector('#size_list .selected'),  homeProducts);
     }));
 
 }
 const getSelected = (element, homeProducts) => {
-    console.log(element.dataset.id, homeProducts.size)
+    // console.log(homeProducts)checkout_btn
     let sizes = [];
     let count = 1;
     let sizeSpans = ``;
-    homeProducts.size.forEach((sizeElement, index) => {
-        if(sizeElement.colour_id == element.dataset.id){
-            console.log(sizeElement)
-            if(!sizes.includes(sizeElement.size_label)){
-                sizes.push(sizeElement.size_label);
-                sizeSpans += `<span class='select_size' data-size="${sizeElement.size_label}" data-id ="${sizeElement.size_label}" data-index ="${count}">${sizeElement.size_label}</span>`;
-                count++;
-            }
+    homeProducts.forEach((psize, index) => {
+        if(document.querySelector('.available_colors .selected').dataset.color == psize.colour_name){
+            sizeSpans += `<span "class='select_size' data-size="${psize.size_label}" data-quantity="${psize.quantity}" data-productcode ="${psize.product_code}"  data-inventory_id ="${psize.inventory_id}"   data-id ="${psize.id}" >${psize.size_label}</span>`;
 
-            // GET DETAILS FOR THE SELECTED COLOR
-            document.getElementById('pName').textContent = homeProducts.name;
-            document.getElementById('pCategory').textContent = homeProducts.category_name;
-            document.getElementById('pProductCode').textContent = homeProducts.size[index].product_code;
-            document.getElementById('pBrandName').textContent = homeProducts.brand_name;
-            document.getElementById('pDesc').textContent = homeProducts.size[index].desc;
-            document.getElementById('pPrice').textContent = addComma(homeProducts.sale_price);
-            document.getElementById('add_cart').dataset.id = homeProducts.size[index].id;
+            // GET THE FIRST PRODUCT DETAILS IN THE LIST AND DISPLAY THEMM
+            // console.log(psize.name)
+            document.getElementById('pName').textContent = psize.name;
+            document.getElementById('pCategory').textContent = psize.category_name;
+            document.getElementById('pProductCode').textContent = psize.product_code;
+            document.getElementById('pBrandName').textContent = psize.brand_name;
+            document.getElementById('pDesc').textContent = psize.desc;
+            document.getElementById('pPrice').textContent = psize.sale_price;
+            document.getElementById('add_cart').dataset.id = psize.id;
+            document.getElementById('add_cart').dataset.inventory_id = psize.inventory_id;
             document.getElementById('add_cart').style.backgroundColor = "green";
-            document.querySelector('.remove_quantity').dataset.id = homeProducts.size[index].id;
-            document.querySelector('.add_quantity').dataset.id = homeProducts.size[index].id;
+            document.querySelector('.remove_quantity').dataset.id = psize.id;
+            document.querySelector('.add_quantity').dataset.id = psize.id;
             document.getElementById('item_d_quantity').value = 1;
-
+            document.getElementById('pImage').setAttribute('src', (psize.product_image == null) ? "./images/default.png": "./images/" + psize.product_image);
         }
+        document.getElementById('size_list').innerHTML = sizeSpans;
+
+        document.querySelectorAll('#size_list span').forEach((element, index) => element.addEventListener('click', () => {
+            document.querySelectorAll('#size_list span').forEach((allelement) => allelement.classList.remove('selected'));
+            // SET ACTIVE CLASS TO CLICKED 
+            element.classList.toggle('selected');
+            // console.log(index)
+            document.getElementById('pProductCode').textContent = element.dataset.productcode;
+            document.getElementById('add_cart').dataset.id = element.dataset.id
+            document.getElementById('add_cart').dataset.inventory_id = element.dataset.inventory_id
+            // document.querySelector('.s .sielected').dataset.quantity = 1;
+
+            document.getElementById('item_d_quantity').value = 1;
+            productAdjuster(homeProducts);        
+
+        }));
+
     });
-    document.getElementById('size_list').innerHTML = sizeSpans;
-    document.querySelectorAll('#size_list span').forEach((element, index) => element.addEventListener('click', () => {
-        document.querySelectorAll('#size_list span').forEach((allelement) => allelement.classList.remove('selected'));
-        // SET ACTIVE CLASS TO CLICKED element
-        element.classList.toggle('selected');
-        console.log(index)
-        document.getElementById('pProductCode').textContent = homeProducts.size[Number(element.dataset.index)].product_code;
-        document.querySelector('.available_size .selected').dataset.quantity = homeProducts.size[Number(element.dataset.index)].quantity;
 
-        document.getElementById('item_d_quantity').value = 1;
-        productAdjuster(homeProducts);        
-
-    }));
 }
 const getData = async () => {
     var site = {};
@@ -727,7 +750,7 @@ const generateReceipt = (cart_items) => {
                     <span class="item_quantity">${cart_items[cart_item].quantity}</span>
                 </td>
                 <td>
-                    <span class="item_price">${addComma(cart_items[cart_item].price)}<small>/=</small></span>
+                    <span class="item_price">${addComma(cart_items[cart_item].price.toString())}<small>/=</small></span>
                 </td>
                 <td>
                     <span class="item_total">${addComma((Number(cart_items[cart_item].price) * Number(cart_items[cart_item].quantity)).toString())}<small>/=</small></span>
@@ -764,7 +787,7 @@ const warning = (elementList, elementToCheck,msg) =>{
     }));
 }
 const productAdjuster = (homeProducts) => {
-    // GET PRODUCT ADJUSTERS AND QUANTITY
+    // GET PRODUCT ADJUSTERS AND QUANTITYcart_section
     const remove_quantity = document.querySelectorAll('.remove_quantity');
     const add_quantity = document.querySelectorAll('.add_quantity');
     const item_d_quantity = document.getElementById('item_d_quantity');
@@ -773,17 +796,17 @@ const productAdjuster = (homeProducts) => {
     add_quantity.forEach((add_quantity_btn) => add_quantity_btn.addEventListener('click', (e) => {
         e.preventDefault();
         let currentValue = document.getElementById('item_d_quantity').value;
-        document.getElementById('item_d_quantity').value =(Number(currentValue) == sizes.dataset.quantity) ? sizes.dataset.quantity : Number(currentValue) + 1;
+        document.getElementById('item_d_quantity').value =(Number(currentValue) >= sizes.dataset.quantity) ? sizes.dataset.quantity : Number(currentValue) + 1;
         setCartItem(homeProducts);
         if(Number(currentValue) == sizes.dataset.quantity){
-            deliverNotification('Only ' +sizes.dataset.quantity + ' product<small>(s)</small> in stock please!' );
+            deliverNotification('Only ' +sizes.dataset.quantity + ' product<small>(s)</small> in stock please!', 'warning' );
         }
 
     }));
     remove_quantity.forEach((remove_quantity_btn) => remove_quantity_btn.addEventListener('click', (e) => {
         e.preventDefault();
         let currentValue = document.getElementById('item_d_quantity').value;
-        document.getElementById('item_d_quantity').value = (Number(currentValue) == 0) ? 0 : Number(currentValue) - 1;
+        document.getElementById('item_d_quantity').value = (Number(currentValue) == 1) ? 1 : Number(currentValue) - 1;
         setCartItem(homeProducts);
     }));
 
@@ -800,7 +823,7 @@ const productAdjuster = (homeProducts) => {
         localStorage.setItem('outdoorgear', JSON.stringify(site));
         document.querySelector("#showCart sup").textContent = Object.keys(site.cart).length;
         generateCart();
-        generateReceipt(site.cart);
+        // generateReceipt(site.cart);
 
     })
 }
@@ -818,46 +841,37 @@ const addToCartEvent = (view) => {
         cart.then((response) => {
             console.log(response.msg);
             document.querySelector("#showCart sup").textContent = Object.keys(response.cart).length;
-            generateCart();
-            generateReceipt(response.cart);
+            // generateCart();
+            // generateReceipt(response.cart);
         });
     });
 
 });
 }
 const setCartItem = (homeProducts) => {
-    console.log(homeProducts)
+    // console.log(homeProducts)add_cart
     // GET PRODUCT INFORMAION
     if(localStorage.getItem('outdoorgear')){
         var site = JSON.parse(localStorage.getItem('outdoorgear'));
-        // let product_info = site.fetch_all_inventory_products[document.querySelector('#add_cart').dataset.index]; cartAdd
-        let productImage = [];
-        let availableQty = [];
-        homeProducts.colour.forEach((colour) => {
-            if(colour.colour_name == titleCase(document.querySelector('.available_colors span.selected').dataset.color)){
-                productImage.push(colour.img);
+        let product_details = null;
+        homeProducts.forEach((productD) => {
+            if(productD.id == document.getElementById('add_cart').dataset.id){
+                product_details = {
+                    'id': document.querySelector('#add_cart').dataset.id,
+                    'inventory_id': document.querySelector('#add_cart').dataset.inventory_id,
+                    'product_code': document.getElementById('pProductCode').textContent,
+                    'name': productD.name,
+                    'brand': productD.brand_name,
+                    'size': document.querySelector('.available_size span.selected').dataset.size,
+                    'color': document.querySelector('.available_colors span.selected').dataset.color,
+                    'image': (productD.product_image == null) ? "./images/default.png": "./images/" + productD.product_image,
+                    'quantity': document.getElementById('item_d_quantity').value,
+                    'available': document.querySelector('.available_size span.selected').dataset.quantity,
+                    'index': document.querySelector('#add_cart').dataset.index,
+                    'price': productD.sale_price,
+                }
             }
-        })
-        homeProducts.size.forEach((size) => {
-            if(size.product_code == document.getElementById('pProductCode').textContent){
-                availableQty.push(size.quantity);
-            }
-        })
-        let product_details = {
-            'id': document.querySelector('#add_cart').dataset.id,
-            'product_code': document.getElementById('pProductCode').textContent,
-            'name': homeProducts.name,
-            'brand': homeProducts.brand_name,
-            'size': document.querySelector('.available_size span.selected').dataset.size,
-            'color': document.querySelector('.available_colors span.selected').dataset.color,
-            'image': productImage[0],
-            'quantity':availableQty[0],
-            'available': document.getElementById('item_d_quantity').value,
-            'index': document.querySelector('#add_cart').dataset.index,
-            'price': homeProducts.sale_price,
-        }
-        console.log(homeProducts);
-        console.log(product_details);
+        });
 
         return product_details;
 
@@ -900,7 +914,7 @@ const generateCart = () => {
         let cart = getLocalData().cart;
         document.querySelector("#showCart sup").textContent = Object.keys(cart).length;
 
-        console.log(cart);
+        // console.log(cart);
         if(Object.keys(cart).length > 0){
             let count = 1;
             Object.keys(cart).forEach((cart_item) => {
@@ -911,7 +925,7 @@ const generateCart = () => {
                     <div class="cart_item">
                         <span>${count}</span>
                         <div class="p_info">
-                            <span><img src="./images/${cart[cart_item].image}"></span>
+                            <span><img src="${cart[cart_item].image}"></span>
                             <span>
                                 <small><b>Name: </b> ${cart[cart_item].name}</small>
                                 <small><b>Brand: </b> ${cart[cart_item].brand}</small>
@@ -928,7 +942,7 @@ const generateCart = () => {
                         </span>
                         <span>
                             <label>
-                                <input type="text" name="" class="cart_price" data-id="${cart[cart_item].id + '-' + cart[cart_item].size}" id="${cart[cart_item].id + '-' + cart[cart_item].size}price" value="@${addComma(cart[cart_item].price)}">
+                                <input type="text" name="" class="cart_price" data-id="${cart[cart_item].id + '-' + cart[cart_item].size}" id="${cart[cart_item].id + '-' + cart[cart_item].size}price" value="@${addComma(cart[cart_item].price.toString())}">
                             </label>
                         </span>
                         <span>
@@ -962,16 +976,16 @@ const generateCart = () => {
         }
 // <span><i class="las la-plus"></i><b>Add Item</b></span>
 //                                 <span><i class="las la-plus"></i><b>Add Payment Type</b></span>
-//                                 <span><i class="las la-plus"></i><b>Add Discount</b></span>
+//                                 <span><i class="las la-plus"></i><b>Add Discount</b></span>checkout_btn
         cartSect += `
 
                 <div class="cart_info">
                     <h2>Billing details</h2>
                     <div class="customer_info">
-                        <input type="text" name="" placeholder="customer First name">
-                        <input type="text" name="" placeholder="customer last name">
-                        <input type="text" name="" placeholder="customer email">
-                        <input type="text" name="" placeholder="customer telephone">
+                        <input type="text" id="fname" placeholder="customer First name">
+                        <input type="text" id="lname" placeholder="customer last name">
+                        <input type="text" id="cemail" placeholder="customer email">
+                        <input type="text" id="telephone" placeholder="customer telephone">
                     </div>
                     <div class="sale_info">
                         <div class="header">
@@ -992,6 +1006,10 @@ const generateCart = () => {
                             </div>
                             <span id="clearCart"><i class="las la-trash-alt"></i><b>Clear List</b></span>
                         </div>
+                        <label for="printReceipt" class="printReceipt">
+                            <input type = "checkbox" name="printReceipt" id="printReceipt" value="print">
+                            <span>Print receipt</span>
+                        </label>
                         <div class="sale_details">
                             <div class="sale_billing">
                                 <span>Total Quantity: <b>${totalQty}</b></span>
@@ -1023,12 +1041,7 @@ const generateCart = () => {
 
         document.getElementById('clearCart').addEventListener('click', () => {
             console.log('we are registering')
-            let site = getLocalData();
-            Object.keys(site.cart).forEach((cart_item) => {
-                delete site.cart[cart_item];
-            })
-            localStorage.setItem('outdoorgear', JSON.stringify(site));
-            generateCart();
+            clearCart();
         });
         document.querySelectorAll('.remove_from_cart i').forEach((removeBtn) => {
             removeBtn.addEventListener('click', () => {
@@ -1086,16 +1099,73 @@ const generateCart = () => {
     });
     // if(document.getElementById('checkout_btn')){
         document.getElementById('checkout_btn').addEventListener('click', () => {
-            generateReceipt(getLocalData().cart)
-            print();
+            if(Object.keys(getLocalData().cart).length != 0){
+
+                let orderDetails = {
+                    'attendant_id': Object.keys(getLocalData().sessions)[0],
+                    'fname': document.getElementById('fname').value,
+                    'lname': document.getElementById('lname').value,
+                    'cemail': document.getElementById('cemail').value,
+                    'telephone': document.getElementById('telephone').value,
+                    'cart_payment_types': document.getElementById('cart_payment_types').value,
+                    'cart_discrounts': document.getElementById('cart_discrounts').value,
+                }
+
+                let saleItems = [];
+                Object.keys(getLocalData().cart).forEach((cart_item) => {
+                    saleItems.push(getLocalData().cart[cart_item]);
+                });
+                orderDetails.cart = saleItems;
+                if(document.getElementById('cemail').value != "" && document.getElementById('cart_payment_types').value !="" && document.getElementById('cart_discrounts').value != ""){
+                    let sale = new Sales().performOperation(null, 'make_sale', orderDetails);
+                    sale.always(function(data){
+                        console.log(data);
+                        document.querySelector('.cart_section').classList.toggle('show');
+                        if(data.response == 'success'){
+                            let homeProducts = new Home().getInventoryProducts();
+                            console.log(data.message);
+                            if (document.getElementById('printReceipt').checked == true){
+                                generateReceipt(getLocalData().cart);
+                                document.getElementById('invoice_date').innerHTML = `<b>Date</b> ${data.message.date}`
+                                document.getElementById('invoice_no').innerHTML = `<b>No.</b> ${data.message.invoiceNo}`
+                                print();
+
+                            }
+                            clearCart();
+                            navigateTo(window.location.url);
+                            
+                            deliverNotification("Transaction completed successfully", 'success');
+                        }else{
+                            deliverNotification("Operation failed", 'error');
+
+                        }
+                    });
+                }else{
+                    deliverNotification("Important fields can not be Empty", 'warning');
+
+                }
+            }else{
+                deliverNotification("Cart is Empty", 'warning');
+
+            }
         });
-    // }
+    // }add_cart
 
 
 
 
 }
 
+const clearCart = () =>{
+    let site = getLocalData();
+    Object.keys(site.cart).forEach((cart_item) => {
+        delete site.cart[cart_item];
+    })
+    localStorage.setItem('outdoorgear', JSON.stringify(site));
+    document.querySelector("#showCart sup").textContent = Object.keys(site.cart).length;
+
+    generateCart();
+}
     
 const print = () => {
 
@@ -1178,9 +1248,9 @@ const findCorespondingValue = (products, valueToFind) => {
             setSelectedValue(document.getElementById('add_inventory_status'), 3);
             document.getElementById('add_inventory_status').style.borderColor = 'green';
 
-            document.getElementById('add_inventory_buy_price').value = addComma(products[product].buy_price);
+            document.getElementById('add_inventory_buy_price').value = addComma(products[product].buy_price.toString());
             document.getElementById('add_inventory_buy_price').style.borderColor = 'green';
-            document.getElementById('add_inventory_sale_price').value = addComma(products[product].sale_price);
+            document.getElementById('add_inventory_sale_price').value = addComma(products[product].sale_price.toString());
             document.getElementById('add_inventory_sale_price').style.borderColor = 'green';
 
             document.getElementById('add_inventory_product_id').value = products[product].id;
@@ -1289,9 +1359,15 @@ document.addEventListener('DOMContentLoaded', () => {
     //     p_full_details.classList.toggle('show');
     // }));
     // closeP_details.addEventListener('click', () => {
-    //     p_full_details.classList.toggle('show'); logged_in_img
+    //     p_full_details.classList.toggle('show'); 
     // })
     
+    document.getElementById('search_value').addEventListener('input', ()=> {
+        console.log(document.getElementById('search_value').value);
+        let homeFs = new Home();
+        let homeSearch = homeFs.searchInventory(document.getElementById('search_value').value, 'home_search');
+        // console.log(homeSearch);
+    })
 
 });
 

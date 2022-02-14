@@ -427,10 +427,21 @@ export default class extends General{
         // console.log(data)
         return this.ajaxRequest;
     }
-    specificityOperation(inventoryID, action, info={}){
+    search(search_field, search_value, route){
+    	const data = {
+    		'action': route,
+    		'search_field': search_field,
+    		'search_value': search_value
+    	}
+        this.ajaxRequest = super.run(data);
+
+        return this.ajaxRequest;
+    	
+    }
+    specificityOperation(ID, action, info={}){
     	const data = {
 		    'action': action, 
-		    'id': inventoryID,
+		    'id': ID,
 		    'data': info
 		}
 

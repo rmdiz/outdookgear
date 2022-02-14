@@ -188,6 +188,21 @@ class Model{
         return $stmt;
     }
      
+    // read products by search term
+    public function querySearch($query, $search_term){
+         
+        // prepare query statement
+        $stmt = $this->conn->prepare( $query );
+        // $search_term = "%{$search_term}%";
+        // $stmt->bindParam(1, $search_term);
+     
+        // execute query
+        $stmt->execute();
+     
+        // return values from database
+        return $stmt;
+    }
+     
     public function countAll_BySearch($table, $search_term, $search_field){
      
         // select query

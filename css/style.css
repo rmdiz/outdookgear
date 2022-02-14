@@ -472,6 +472,12 @@ header .top_nav .user .user_info span.user_image img{
     border-radius: 50%;
     z-index: 1;
 }
+.bunner h1{
+    z-index: 2;
+    margin: 1%;
+    color: var(--black);
+    opacity: .8;
+}
 .section_title{
     z-index: 2;
     margin: 1%;
@@ -479,12 +485,6 @@ header .top_nav .user .user_info span.user_image img{
     opacity: .8;
     display: flex;
     justify-content: space-between;
-}
-.bunner h1{
-    z-index: 2;
-    margin: 1%;
-    color: var(--black);
-    opacity: .8;
 }
 .bunner .home_populars{
     display: grid;
@@ -1166,6 +1166,9 @@ footer div.contacts i{
     }
 }
 @media only screen and (max-width: 930px){
+    .section_title{
+        margin: 0 2rem;
+    }
     header{
         left: 5.1rem;
         padding-left: 1rem;

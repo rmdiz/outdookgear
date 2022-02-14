@@ -85,7 +85,7 @@ export default class extends General{
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="sale_list">
 
 						<tr>
 							<td><label>PTST28BL</label></td>
@@ -869,4 +869,66 @@ export default class extends General{
 		</section>
 		`;
 	}
+
+	performOperation(ID, action, info={}){
+    	const data = {
+		    'action': action, 
+		    'id': ID,
+		    'data': info
+		}
+
+        this.ajaxRequest = super.run(data);
+        // console.log(this.ajaxRequest);
+        return this.ajaxRequest;
+    }
+
+   	generateSales() {
+    	let tr = '';
+    	let sales = this.performOperation(null, 'get_sales', null);
+    	sales.always(function(data){
+            console.log(data);
+            if(data.response == 'success'){
+		    	data.message.forEach((sale) => {
+			    	tr += `
+			    		<tr>
+							<td><label>${sale.product_code}</label></td>
+							<td><label>${sale.product_name}</label></td>
+							<td><label>${sale.category_name}</label></td>
+							<td><label>${sale.sale_price}</label></td>
+							<td><label>${sale.brand_name}</label></td>
+							<td><label>${sale.quantity}</label></td>
+							<td><label>${sale.branch_location}</label></td>
+							<td><label>${sale.username}</label></td>
+
+							<td>
+								<label>
+									<span class="status s_active">Sold</span>
+								</label>
+							</td>
+							<td><label>${sale.purchase_date.split(' ')[0]} <b>${sale.purchase_date.split(' ')[1]}</b></label></td>
+
+							<td>
+								<label>
+									<a href="#" data-purchase_id = '${sale.purchase_id}'>
+										<i class="las la-braille"></i>
+									</a>
+									<a href="#" data-purchase_id = '${sale.purchase_id}'>
+										<i class="las la-edit"></i>
+									</a>
+									<a href="#" data-purchase_id = '${sale.purchase_id}'>
+										<i class="las la-trash-alt"></i>
+									</a>
+								</label>
+							</td>
+						</tr>
+			    	`;	
+
+		    	});
+
+		    	document.getElementById('sale_list').innerHTML = tr;
+			}
+        });
+
+    }
+
 }

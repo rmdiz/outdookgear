@@ -26,6 +26,8 @@
 	$supplierController = new Supplier($Model);
 	require_once('../api/PaymentTypes.php');
 	$paymentTypesController = new PaymentTypes($Model);
+	require_once('../api/Sale.php');
+	$salesController = new Sale($Model);
 
 	$request = $_POST['action'];
 
@@ -81,6 +83,9 @@
 		case 'update_product':
 			$productController->updateProduct($_POST['data']);
 			break;
+		case 'home_search':
+			$productController->home_search($_POST['data']);
+			break;
 		case 'update_inventory':
 			$productController->updateInventory($_POST['data'], $_POST['id']);
 			break;
@@ -89,6 +94,15 @@
 			break;
 		case 'get_inventory_details':
 			$productController->getInventoryDetails($_POST['id']);
+			break;
+		case 'fetch_product_by_name':
+			$productController->searchByField($_POST['search_field'], $_POST['search_value']);
+			break;
+		case 'make_sale':
+			$salesController->makeTransaction($_POST['data']);
+			break;
+		case 'get_sales':
+			$salesController->getSales();
 			break;
 		case 'authenticate':
 			require_once('../api/Auth.php');

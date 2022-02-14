@@ -46,7 +46,7 @@ export default class extends General{
 						<span><b>Price:</b> <label>${homeProduct.sale_price}</label><small>/=</small></span>
 					</div>
 					<div class="actions">
-						<a class="p_details" data-product="${homeProduct.name}" data-id="${homeProduct.size[0].id}">
+						<a class="p_details" data-product="${homeProduct.name}" data-ivid="${homeProduct.size[0].inventory_id}" data-id="${homeProduct.size[0].id}">
 							<span>View available colours and sizes</span>
 							<i class="las la-chevron-right"></i>
 						</a>
@@ -58,6 +58,9 @@ export default class extends General{
 		product_display_element.innerHTML = displayInfo;
 	}
 	async getPage(){
+		let productInfo = await this.getInventoryProducts();
+
+		console.log(productInfo);
 		return `
 		<section class="page" id="home">
 			<div class="home_products">
@@ -149,7 +152,6 @@ export default class extends General{
 		// 			<ul class="aside_details" id="home_colors">
 		// 			</ul>
 	}
-
 	getPFDetails(product_info, colour = 0, size = 0){
 		let colourIndexed = product_info.colour[colour];
 		let sizeIndexed = product_info.size[size];
@@ -225,6 +227,56 @@ export default class extends General{
 				</div>
 			</div>
 		`;
+	}
+
+	addPDFTemplate(){
+		return `
+                    <div class="product_full_details">
+                        <div class="header">
+                            <span>Product Information</span>
+                            <i class="las la-times" id="closeP_details"></i>
+                        </div>
+                        <div class="product_full_img">
+
+                            <div class="p_infor">
+                                <h2 id="pName"></h2>
+                                <label><b>Category: </b><span id="pCategory"></span></label>
+                                <label><b>Product Code: </b><span id="pProductCode"></span></label>
+                                <label><b>Brand: </b> <span id="pBrandName"></span></label>
+                            </div>
+
+                            <img id="pImage" src="./images/">
+                        </div>
+                        <div class="product_full_info">
+                            <div class="available_colors" id="home_available_colors">
+                                <b>Select Color</b>
+                            </div>
+                            <div class="available_size" id="home_available_size">
+                                <b>Select color to get available sizes</b>
+                                <div id="size_list"></div>
+
+                                <b>Enter Quantity</b>
+                                <label class="quantity_adjuster">
+                                    <a href="#" class="remove_quantity">
+                                        <i class="las la-minus"></i>
+                                    </a>
+                                    <input type="text" name="" id="item_d_quantity" value="1" data-quantity="1">
+                                    <a href="#" class="add_quantity">
+                                        <i class="las la-plus"></i>
+                                    </a>
+                                </label>
+                            </div>
+                            <div class="desc">
+                                <b>Description</b>
+                                <p id="pDesc"></p>
+                            </div>
+                            <div class="conc">
+                                <span id="product_price"><b>@</b><b id="pPrice"></b><small>/=</small></span>
+                                <button id="add_cart" data-id="">Add to Cart <i class="las la-shopping-bag"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
 	}
 
 	async getInventoryProducts(){
@@ -316,7 +368,95 @@ export default class extends General{
 		});
 
 	}
-
+	async searchInventory(search_value, action){
+		const data = {
+		    'action': action,
+		    'search_value': search_value,
+	    }
+	    let PDT_INFO = {};
+        let productColors = [];
+        let productSizes = [];
+	    this.ajaxRequest = super.run(data);
+	    this.ajaxRequest.always(function(result) {
+		    console.log(result.message);
+		 //    if(result.response == "success"){
+			// 	result.message.forEach((line) => {
+		 //        	if(PDT_INFO[line.name] != "object"){
+	  //                   productColors.push(
+	  //                           {
+	  //                               'colour_id': line.colour_id,
+	  //                               'colour_name': line.colour_name,
+	  //                               'img': line.product_image,
+	  //                           }
+	  //                       );
+	  //                   productSizes.push(
+	  //                           {
+	  //                               'colour_id': line.colour_id,
+	  //                               "inventory_id":  line.inventory_id,
+	  //                               "id":  line.id,
+	  //                               "product_code":  line.product_code,
+	  //                               "size_label": line.size_label,
+	  //                               "size_id": line.size_id,
+	  //                               "quantity": line.quantity,
+	  //                               "desc":  line.desc,
+	  //                               "created_at":  line.created_at,
+	  //                               "deleted_at":  line.deleted_at,
+	  //                               "modified_at":  line.modified_at,
+	  //                           }
+	  //                       )
+	  //                   PDT_INFO[line.name] = {
+	  //                       "brand_id":  line.brand_id,
+	  //                       "brand_name":  line.brand_name,
+	  //                       "buy_price":  line.buy_price,
+	  //                       "category_id":  line.category_id,
+	  //                       "category_name":  line.category_name,
+	  //                       "colour":  productColors,
+	  //                       "name":  line.name,
+	  //                       "size":  productSizes,
+	  //                       "remarks":  line.remarks,
+	  //                       "sale_price":  line.sale_price,
+	  //                       "supplier":  line.supplier,
+	  //                       "supplier_id":  line.supplier_id,
+	  //                   }
+	  //               }else{
+	                    
+	  //                   productColors.push(
+	  //                       {
+	  //                           'colour_id': line.colour_id,
+	  //                           'colour_name': line.colour_name,
+	  //                           'img': line.product_image,
+	  //                       }
+	  //                   );
+	  //                   productSizes.push(
+	  //                       {
+	  //                           "product_code":  line.product_code,
+	  //                           "size_label": line.size_label,
+	  //                           "size_id": line.size_id,
+	  //                           "quantity": line.quantity,
+	  //                           "desc":  line.desc,
+	  //                           "created_at":  line.created_at,
+	  //                           "deleted_at":  line.deleted_at,
+	  //                           "id":  line.id,
+	  //                           "inventory_id":  line.inventory_id,
+	  //                           "modified_at":  line.modified_at,
+	  //                       }
+	  //                   );
+	  //               }
+		 //        });
+			// }
+			result = PDT_INFO;
+			// if(!localStorage.getItem('outdoorgear')){
+   //          	localStorage.setItem('outdoorgear', JSON.stringify(this.site));
+	  //       }
+	        // this.site = JSON.parse(localStorage.getItem('outdoorgear'));
+	        let item = [];
+	        Object.keys(PDT_INFO).forEach((line) => {
+				console.log(PDT_INFO[line]);
+	        	item.push(PDT_INFO[line]);
+	        })
+	    })
+	    return this.ajaxRequest;
+	}
 	async fetchInventoryProducts(){
 		const data = {
 		    'action':'fetch_all_inventory_products'
@@ -424,7 +564,7 @@ export default class extends General{
 	  //       	item.push(PDT_INFO[line]);
 	  //       })
 	  //       this.site['fetch_inventory_products_formated'] = item;
-	  //       localStorage.setItem('outdoorgear', JSON.stringify(this.site));
+	  //       localStorage.setItem('outdoorgear', JSON.stringify(this.site));p_details
 		});
 
 	}
