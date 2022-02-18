@@ -97,6 +97,8 @@ class Sale{
 				"product_id" => (int)$info["id"],
 				"customer_id" => (int)$customerDetails_id,
 				"quantity" => (int)$info["quantity"],
+				"price" => (int)$info["price"],
+				"remarks" => $info["desc"],
 				"payment_type_id" => (int)$payType,
 				"discrount_id" => (int)$discount,
 				"attendant_id"  => (int)$attendant_id
@@ -104,16 +106,16 @@ class Sale{
 			);
 			$saleDetails_id = $this->p_instance->Save("sold_tb", $saleDetails);
 			array_push($purchase_ids, (int)$saleDetails_id);
-			// array_push($saleInfo, $saleDetails_id);
-			// if($saleDetails_id){
-			// 	$inventory = array(
-			// 		'quantity' =>  (int)$info['available'] - (int)$info['quantity'], 
-			// 		'status_id' =>  (((int)$info['available'] - (int)$info['quantity']) == 0) ? 1 : 3, 
-			// 	);
-			// 	// UPDATE INVENTORY QUANTITY AMD STATUS
-			// 	$inventory_info = $this->p_instance->updateDetails('inventory_tb', 'inventory_id', (int) $info["inventory_id"], $inventory);
+			array_push($saleInfo, $saleDetails_id);
+			if($saleDetails_id){
+				$inventory = array(
+					'quantity' =>  (int)$info['available'] - (int)$info['quantity'], 
+					'status_id' =>  (((int)$info['available'] - (int)$info['quantity']) == 0) ? 1 : 3, 
+				);
+				// UPDATE INVENTORY QUANTITY AMD STATUS
+				$inventory_info = $this->p_instance->updateDetails('inventory_tb', 'inventory_id', (int) $info["inventory_id"], $inventory);
 				
-			// }
+			}
 		}
 		// GENERATE INVOICE NO.
 		$invoice_no = '';

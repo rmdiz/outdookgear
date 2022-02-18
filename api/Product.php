@@ -24,6 +24,7 @@ class Product{
 			echo json_encode(array('response'=> "failed", 'message' => 'Operation failed'));
 		}
 	}
+	
 	public function saveProduct($data){
 
 		$Product = array(
@@ -106,7 +107,7 @@ class Product{
 			echo json_encode(array('response'=> "failed", 'message' => 'Nothing found'));
 		}
 	}
-	public function home_search($data){
+	public function home_search($search_value){
 		$sql = "
 			SELECT iv.inventory_id, iv.quantity, iv.branch_id, iv.discount_id, iv.status_id, pt.*, cy.category_name, bd.brand_name, cr.colour_name, sz.size_label, CONCAT(sr.fname, ' ', sr.lname)AS supplier, pi.product_image FROM inventory_tb iv
 				LEFT OUTER JOIN product_tb pt 
@@ -123,8 +124,8 @@ class Product{
 				ON pt.supplier_id = sr.supplier_id
                 LEFT OUTER JOIN product_image_tb pi
                 ON pi.product_id = pt.product_id
-                WHERE iv.status_id = 3 AND pt.product_name LIKE '%".$data['search_value']."%' 
-				ORDER BY pt.product_id DESC
+                WHERE iv.status_id = 3 AND pt.product_name LIKE '%".$search_value."%' 
+				ORDER BY pt.product_name DESC
 			";
 
 		$result = $this->p_instance->querySearch($sql, $data['search_value']);
@@ -190,11 +191,11 @@ class Product{
 				ON pt.supplier_id = sr.supplier_id
                 LEFT OUTER JOIN product_image_tb pi
                 ON pi.product_id = pt.product_id
-                WHERE iv.status_id = ?
-				ORDER BY pt.product_id DESC
+                WHERE iv.status_id = ? 
+				ORDER BY pt.product_name DESC
 			";
 
-		$result = $this->p_instance->getDetails($sql, array('id' => 3));
+		$result = $this->p_instance->getDetails($sql, array('iv.status_id' => 3));
 
 		// GET NUMBER OF ROWS
 		$num = $result->rowCount();
@@ -300,7 +301,8 @@ class Product{
 				ON pt.size_id = sz.size_id 
 				LEFT OUTER JOIN supplier_tb sr 
 				ON pt.supplier_id = sr.supplier_id
-                WHERE pt.product_name = ?
+                WHERE pt.product_name = ? AND 
+                iv.status_id = 3 
 				ORDER BY pt.product_id DESC
 		";
 		$result = $this->p_instance->getDetails($sql, array('product_name' => $search_value));

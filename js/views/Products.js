@@ -240,14 +240,14 @@ export default class extends General{
 					<input type="hidden" id="add_inventory_product_id">
 
 					<div class="field">
-						<label>Code</label>
-						<select id="add_inventory_product_code">
+						<label>Product</label>
+						<select id="add_inventory_product_name">
 						</select>
 						<i class="las la-chevron-down"></i>
 					</div>
 					<div class="field">
-						<label>Product</label>
-						<select id="add_inventory_product_name">
+						<label>Code</label>
+						<select id="add_inventory_product_code">
 						</select>
 						<i class="las la-chevron-down"></i>
 					</div>
@@ -434,7 +434,7 @@ export default class extends General{
     		'search_value': search_value
     	}
         this.ajaxRequest = super.run(data);
-
+        // console.log(this.ajaxRequest )
         return this.ajaxRequest;
     	
     }
@@ -512,6 +512,7 @@ export default class extends General{
 	    this.ajaxRequest = super.run(data);
 
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 
 	async getBrands(){
@@ -521,14 +522,16 @@ export default class extends General{
 	    this.ajaxRequest = super.run(data);
 
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 	async getColors(){
 		const data = {
 		    'action':'fetch_all_colors'
 	    }
 	    this.ajaxRequest = super.run(data);
-
+	    console.log(this.ajaxRequest);
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 	async getDiscounts(){
 		const data = {
@@ -537,6 +540,7 @@ export default class extends General{
 	    this.ajaxRequest = super.run(data);
 
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 	async getStatus(){
 		const data = {
@@ -545,6 +549,7 @@ export default class extends General{
 	    this.ajaxRequest = super.run(data);
 
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 	async getSuppliers(){
 		const data = {
@@ -553,6 +558,7 @@ export default class extends General{
 	    this.ajaxRequest = super.run(data);
 
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 	async getSizes(){
 		const data = {
@@ -561,5 +567,6 @@ export default class extends General{
 	    this.ajaxRequest = super.run(data);
 
 		super.storeToLocalStorage(this.ajaxRequest, data.action);
+		return this.ajaxRequest;
 	}
 }
